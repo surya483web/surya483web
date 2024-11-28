@@ -133,7 +133,7 @@
     <!-- About Section -->
     <section class="about" id="about">
         <h2>About Us</h2>
-        <p>We are a passionate team dedicated to creating amazing websites and providing exceptional services. We specialize in web design, development, and digital marketing.</p>
+        <p>I AM SURYA.M THIS IS MY FIRST WEBSITE AND I AM A LEARNER.</p>
     </section>
 
     <!-- Contact Section -->
