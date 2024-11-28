@@ -6,4 +6,4 @@
 <br>
 <br><input type="mail"  placeholder="               E-mail"><br>
 <br>
-<a href="C:\Users\SURYA\Desktop\Maheshs's iphone\1.html"><input type="button" value="submit"></a>
+<a href="https://github.com/surya483web/surya483web/edit/main/README.md"><input type="button" value="submit"></a>
