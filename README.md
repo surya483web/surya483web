@@ -1,5 +1,5 @@
 <hr><CEnter><h1>  VERIFICATION FORM</h1>
-<input type="text"placeholder="NAME"> <br>
+<input type="text"> <br>
 <br>
 <input type="number" placeholder="       PHONE NUMBER">
 
