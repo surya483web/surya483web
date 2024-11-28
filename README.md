@@ -7,4 +7,3 @@
 <br><input type="mail"  placeholder="               E-mail"><br>
 <br>
 <a href="https://github.com/surya483web/html"><input type="button" value="submit"></a>
-print("hello")
