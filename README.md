@@ -1,9 +1,27 @@
-<hr><CEnter><h1>  VERIFICATION FORM</h1>
-<input type="text" placeholder="NAME"> <br>
+<center> 
+<form style="background-color:rgb(31, 88, 69);border-radius:50px">
+<label for="name">Name:</label>
+<input type="text" id="name" name="name"required>
 <br>
-<input type="number" placeholder="       PHONE NUMBER">
+<br>
+<label for="PHONE NUMBER">number:</label>
+<input type="number:" id="number" name="number"required>
+<br>
+<br>
+<label for="email">E-mail:</label>
+<input type="email:" id="email" name="email"required>
+<br>
+<br>
+<br>
+<a href="https://www.instagram.com/s_ury_a/profilecard/?igsh=NXdyaTI2eXluamg0">
+<button> SUBMIT</button></a>
 
 <br>
-<br><input type="mail"  placeholder="               E-mail"><br>
 <br>
-<a href="https://github.com/surya483web/html"><input type="button" value="submit"></a>
+
+
+
+
+</center>
+
+</form>
