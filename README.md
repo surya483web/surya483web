@@ -15,13 +15,7 @@
 <br>
 <a href="https://www.instagram.com/s_ury_a/profilecard/?igsh=NXdyaTI2eXluamg0">
 <button> SUBMIT</button></a>
-
 <br>
 <br>
-
-
-
-
 </center>
-
 </form>
