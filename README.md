@@ -1,6 +1,7 @@
-<center>
- <form>style="background-color:rgb(31, 88, 69);border-radius:50px">
-           <h1>LOGIN FORM</h1>
+<center> 
+    
+<form style="background-color:rgb(31, 88, 69);border-radius:50px">
+    <h1>|LOGIN FORM|</h1>
 <label for="name">Name:</label>
 <input type="text" id="name" name="name">
 <br>
@@ -14,10 +15,10 @@
 <br>
 <br>
 <br>
-
 <button> SUBMIT</button>
 <br>
 <br>
 
-</form>
 </center>
+
+</form>
