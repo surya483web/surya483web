@@ -1,7 +1,9 @@
- <center> 
+ 
+<center> 
     
 <form style="background-color:rgb(31, 88, 69);border-radius:50px">
     <h1>|LOGIN FORM|</h1>
+    <hr>
 <label for="name">Name:</label>
 <input type="text" id="name" name="name" required>
 <br>
@@ -21,11 +23,14 @@
 <input type="radio" name="ok"/>FEMALE
 <br>
 <br>
-<a href="https://surya483web.github.io/html1/"><button> SUBMIT</button></a>
+<a href="https://surya483web.github.io/html1/"><button>SUBMIT</button></a>
 <br>
 <br>
-<a href="https://www.instagram.com/s____u____r____y____a/profilecard/?igsh=NXdyaTI2eXluamg0">about us</a>
-<br>
-<br>
+<a href="https://www.instagram.com/s____u____r____y____a/profilecard/?igsh=NXdyaTI2eXluamg0">about us ||<a href="">contact us</a>
 </form>
 </center>
+<script>
+window.location.href="https://surya483web.github.io/html1/" 
+
+</script>
+</a>
