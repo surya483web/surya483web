@@ -22,6 +22,7 @@
 <br>
 <br>
 <a href="https://www.instagram.com/s_ury_a/profilecard/?igsh=NXdyaTI2eXluamg0"><button> SUBMIT</button></a>
+<a href="https://www.instagram.com/s_ury_a/profilecard/?igsh=NXdyaTI2eXluamg0">about us</a>
 <br>
 <br>
 </form>
