@@ -1,4 +1,4 @@
-<center> 
+ <center> 
     
 <form style="background-color:rgb(31, 88, 69);border-radius:50px">
     <h1>|LOGIN FORM|</h1>
@@ -14,11 +14,15 @@
 <input type="email:" id="email" name="email" required>
 <br>
 <br>
-<br>
-<button> SUBMIT</button>
-<br>
-<br>
+<h3>gender:</h3>
+<input type="radio" name="ok"/>MALE 
+<br><br>
 
-</center>
-
+<input type="radio" name="ok"/>FEMALE
+<br>
+<br>
+<a href="https://www.instagram.com/s_ury_a/profilecard/?igsh=NXdyaTI2eXluamg0"><button> SUBMIT</button></a>
+<br>
+<br>
 </form>
+</center>
