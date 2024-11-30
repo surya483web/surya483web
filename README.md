@@ -1,7 +1,5 @@
- 
-<center> 
-    
-<form style="background-color:rgb(31, 88, 69);border-radius:50px">
+ <center> 
+    <form style="background-color:rgb(31, 88, 69);border-radius:50px">
     <h1>|LOGIN FORM|</h1>
     <hr>
 <label for="name">Name:</label>
@@ -18,8 +16,8 @@
 <br>
 <h3>gender:</h3>
 <input type="radio" name="ok"/>MALE 
-<br><br>
-
+<br>
+<br>
 <input type="radio" name="ok"/>FEMALE
 <br>
 <br>
@@ -29,8 +27,3 @@
 <a href="https://www.instagram.com/s____u____r____y____a/profilecard/?igsh=NXdyaTI2eXluamg0">about us ||<a href="">contact us</a>
 </form>
 </center>
-<script>
-window.location.href="https://surya483web.github.io/html1/" 
-
-</script>
-</a>
