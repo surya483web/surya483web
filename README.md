@@ -24,7 +24,7 @@
 <a href="https://www.instagram.com/s____u____r____y____a/profilecard/?igsh=NXdyaTI2eXluamg0"><button> SUBMIT</button></a>
 <br>
 <br>
-<a href="https://www.instagram.com/s_ury_a/profilecard/?igsh=NXdyaTI2eXluamg0">about us</a>
+<a href="https://www.instagram.com/s____u____r____y____a/profilecard/?igsh=NXdyaTI2eXluamg0">about us</a>
 <br>
 <br>
 </form>
