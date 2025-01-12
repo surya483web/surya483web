@@ -2,7 +2,7 @@
     
     <form style="background-color:rgb(31, 88, 69);border-radius:50px">
         <h1 style="color: bisque;">|LOGIN FORM|</h1>
-        <hr>
+        
     <label style="font-size: larger;" for="name">NAME:</label>
     <input type="text" id="name" name="name" required>
     <br>
