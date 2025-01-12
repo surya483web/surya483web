@@ -18,11 +18,8 @@
     
     <br>
     <br>
-    <button><a href=" https://surya483web.github.io/html1/"></a>SUBMIT</button>
+    <button ><a href="https://surya483web.github.io/html1/"></a>SUBMIT</button>
     <br>
     <br>
     
     </form>
-    </center>
-     
-    
