@@ -18,7 +18,7 @@
     
     <br>
     <br>
-    <button ><a href="https://surya483web.github.io/html1/"></a>SUBMIT</button>
+    <button onclick="document.location='https://surya483web.github.io/html1/'">SUBMIT</button>
     <br>
     <br>
     
