@@ -7,7 +7,7 @@
     <input type="text" id="name" name="name" required>
     <br>
     <br>
-    <label style="font-size: medium;"" for="PHONE NUMBER">PHONE NUMBER:</label>
+    <label style="font-size: medium;" for="PHONE NUMBER">PHONE NUMBER:</label>
     <input type="number:" id="number" name="number" required>
     <br>
     <br>
