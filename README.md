@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -34,9 +34,6 @@
         .error {
             color: red;
         }
-        .success {
-            color: green;
-        }
     </style>
 </head>
 <body>
@@ -50,22 +47,13 @@
 
     <script>
         function validateLogin() {
-            var username = document.getElementById("username").value;
             var password = document.getElementById("password").value;
             var message = document.getElementById("message");
 
             var correctPassword = "Surya@123";
-            var successMessages = [
-                "Welcome, " + username + "! You have successfully logged in.",
-                "Login successful! Have a great day, " + username + "!",
-                "Access granted! Enjoy your time here, " + username + "!",
-                "You are now logged in! Welcome aboard, " + username + "!"
-            ];
 
             if (password === correctPassword) {
-                var randomMessage = successMessages[Math.floor(Math.random() * successMessages.length)];
-                message.innerHTML = randomMessage;
-                message.className = "success";
+                window.location.href = "https://www.youtube.com";
             } else {
                 message.innerHTML = "Invalid password. Try again.";
                 message.className = "error";
