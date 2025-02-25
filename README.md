@@ -1,162 +1,82 @@
-# app.py
-from flask import Flask, render_template
+import pygame
+import random
+import pymunk
+import numpy as np
 
-app = Flask(__name__)
+# Initialize Pygame
+pygame.init()
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# Screen settings
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("AI Bike Game with Dynamic Weather")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Colors
+WHITE = (255, 255, 255)
+GRAY = (100, 100, 100)
+BLUE = (50, 50, 255)
 
-# Create a templates folder and add the following HTML file
+# Physics setup
+space = pymunk.Space()
+space.gravity = (0, 900)  # Gravity
 
-# templates/index.html
-"""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-            margin: 0;
-        }
-        
-        .calculator {
-            background-color: #333;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            padding: 20px;
-            width: 300px;
-        }
-        
-        .display {
-            background-color: #222;
-            border-radius: 5px;
-            color: white;
-            font-size: 36px;
-            height: 70px;
-            margin-bottom: 20px;
-            padding: 10px;
-            text-align: right;
-            overflow: hidden;
-        }
-        
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-gap: 10px;
-        }
-        
-        button {
-            background-color: #4d4d4d;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            font-size: 24px;
-            height: 60px;
-            transition: background-color 0.2s;
-        }
-        
-        button:hover {
-            background-color: #666;
-        }
-        
-        .clear, .equals {
-            grid-column: span 2;
-        }
-        
-        .operator {
-            background-color: #ff9500;
-        }
-        
-        .operator:hover {
-            background-color: #ffb144;
-        }
-        
-        .clear {
-            background-color: #ff3b30;
-        }
-        
-        .clear:hover {
-            background-color: #ff6459;
-        }
-        
-        .equals {
-            background-color: #34c759;
-        }
-        
-        .equals:hover {
-            background-color: #4cd964;
-        }
-    </style>
-</head>
-<body>
-    <div class="calculator">
-        <div class="display" id="display">0</div>
-        <div class="buttons">
-            <button class="clear" onclick="clearDisplay()">Clear</button>
-            <button class="operator" onclick="appendToDisplay('/')">/</button>
-            <button class="operator" onclick="appendToDisplay('*')">×</button>
-            <button onclick="appendToDisplay('7')">7</button>
-            <button onclick="appendToDisplay('8')">8</button>
-            <button onclick="appendToDisplay('9')">9</button>
-            <button class="operator" onclick="appendToDisplay('-')">-</button>
-            <button onclick="appendToDisplay('4')">4</button>
-            <button onclick="appendToDisplay('5')">5</button>
-            <button onclick="appendToDisplay('6')">6</button>
-            <button class="operator" onclick="appendToDisplay('+')">+</button>
-            <button onclick="appendToDisplay('1')">1</button>
-            <button onclick="appendToDisplay('2')">2</button>
-            <button onclick="appendToDisplay('3')">3</button>
-            <button onclick="appendToDisplay('0')">0</button>
-            <button onclick="appendToDisplay('.')">.</button>
-            <button class="equals" onclick="calculate()">=</button>
-        </div>
-    </div>
+# Bike class
+class Bike:
+    def __init__(self, x, y):
+        self.body = pymunk.Body(1, pymunk.moment_for_box(1, (50, 20)))
+        self.body.position = x, y
+        self.shape = pymunk.Poly.create_box(self.body, (50, 20))
+        self.shape.color = (255, 0, 0, 255)
+        space.add(self.body, self.shape)
 
-    <script>
-        let currentDisplay = '0';
-        
-        function updateDisplay() {
-            document.getElementById('display').textContent = currentDisplay;
-        }
-        
-        function appendToDisplay(value) {
-            if (currentDisplay === '0' && value !== '.') {
-                currentDisplay = value;
-            } else {
-                currentDisplay += value;
-            }
-            updateDisplay();
-        }
-        
-        function clearDisplay() {
-            currentDisplay = '0';
-            updateDisplay();
-        }
-        
-        function calculate() {
-            try {
-                currentDisplay = eval(currentDisplay).toString();
-            } catch (error) {
-                currentDisplay = 'Error';
-            }
-            updateDisplay();
-        }
-    </script>
-</body>
-</html>
-"""
+    def move(self, direction):
+        force = 5000 if direction == "right" else -5000
+        self.body.apply_force_at_local_point((force, 0), (0, 0))
 
-# Create a static folder for potential CSS and JS files if you want to separate them later
+# Weather AI (Uses random & noise for smooth transitions)
+class Weather:
+    def __init__(self):
+        self.clouds = [random.randint(0, WIDTH) for _ in range(5)]
+        self.rain_intensity = 0
+    
+    def update(self):
+        self.rain_intensity = int(50 * (np.sin(pygame.time.get_ticks() * 0.0001) + 1))
+        for i in range(len(self.clouds)):
+            self.clouds[i] += random.randint(-1, 1)  # Cloud movement
+            
+    def draw(self, screen):
+        for x in self.clouds:
+            pygame.draw.circle(screen, GRAY, (x, 100), 40)
+        for _ in range(self.rain_intensity):
+            pygame.draw.line(screen, BLUE, (random.randint(0, WIDTH), random.randint(0, HEIGHT)), (random.randint(0, WIDTH), HEIGHT), 1)
+
+# Game loop
+bike = Bike(400, 300)
+weather = Weather()
+clock = pygame.time.Clock()
+
+running = True
+while running:
+    screen.fill(WHITE)
+    
+    # Handle events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_RIGHT]: bike.move("right")
+    if keys[pygame.K_LEFT]: bike.move("left")
+    
+    # Update physics and weather
+    space.step(1/50)
+    weather.update()
+    
+    # Draw elements
+    weather.draw(screen)
+    pygame.draw.rect(screen, (255, 0, 0), (int(bike.body.position.x), int(bike.body.position.y), 50, 20))
+
+    pygame.display.flip()
+    clock.tick(60)
+
+pygame.quit()
