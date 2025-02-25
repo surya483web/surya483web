@@ -1,36 +1,32 @@
-from panda3d.core import WindowProperties, LVector3
-from direct.showbase.ShowBase import ShowBase
-from direct.task import Task
+from flask import Flask, render_template, request, redirect, url_for
 import random
 
-class BattleRoyale(ShowBase):
-    def __init__(self):
-        super().__init__()
+app = Flask(__name__)
 
-        # Window settings
-        wp = WindowProperties()
-        wp.setSize(1280, 720)
-        self.win.requestProperties(wp)
+# Predefined password
+CORRECT_PASSWORD = "Surya@123"
 
-        # Load environment
-        self.scene = self.loader.loadModel("models/environment")
-        self.scene.reparentTo(self.render)
-        self.scene.setScale(0.25, 0.25, 0.25)
-        self.scene.setPos(-8, 42, 0)
+# List of random success messages
+SUCCESS_MESSAGES = [
+    "Welcome, you have successfully logged in!",
+    "Login successful! Have a great day!",
+    "Access granted! Enjoy your time here!",
+    "You are now logged in! Welcome aboard!"
+]
 
-        # Load Player
-        self.player = self.loader.loadModel("models/panda")
-        self.player.reparentTo(self.render)
-        self.player.setScale(0.005, 0.005, 0.005)
-        self.player.setPos(0, 10, 0)
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
-        # Camera follows player
-        self.taskMgr.add(self.update_camera, "update_camera")
+        if password == CORRECT_PASSWORD:
+            message = random.choice(SUCCESS_MESSAGES)
+            return render_template('success.html', username=username, message=message)
+        else:
+            return render_template('index.html', error="Invalid password. Try again.")
 
-    def update_camera(self, task):
-        self.camera.setPos(self.player.getX(), self.player.getY() - 10, 2)
-        self.camera.lookAt(self.player)
-        return Task.cont
+    return render_template('index.html')
 
-game = BattleRoyale()
-game.run()
+if __name__ == '__main__':
+    app.run(debug=True) 
