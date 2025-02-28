@@ -24,6 +24,7 @@
             width: 80%;
             max-width: 1000px;
             margin: 20px;
+            cursor: pointer;
         }
 
         .info-box {
@@ -58,6 +59,17 @@
         .state-list li:hover {
             background-color: #ddd;
         }
+
+        /* Simple SVG styling */
+        svg path {
+            fill: #ffcc00;
+            stroke: #000;
+            stroke-width: 2;
+        }
+
+        svg path:hover {
+            fill: #ff9900;
+        }
     </style>
 </head>
 <body>
@@ -68,13 +80,13 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
                 <g id="world">
                     <!-- India (example region) -->
-                    <path id="india" d="M300,200 L350,200 L350,250 L300,250 Z" fill="#ffcc00" stroke="#000" stroke-width="2" />
+                    <path id="india" d="M300,200 L350,200 L350,250 L300,250 Z" />
                     <!-- Pakistan (example region) -->
-                    <path id="pakistan" d="M350,200 L400,200 L400,250 L350,250 Z" fill="#ff6666" stroke="#000" stroke-width="2" />
+                    <path id="pakistan" d="M350,200 L400,200 L400,250 L350,250 Z" />
                     <!-- Australia (example region) -->
-                    <path id="australia" d="M500,400 L550,400 L550,450 L500,450 Z" fill="#66cc66" stroke="#000" stroke-width="2" />
+                    <path id="australia" d="M500,400 L550,400 L550,450 L500,450 Z" />
                     <!-- Russia (example region) -->
-                    <path id="russia" d="M600,100 L650,100 L650,150 L600,150 Z" fill="#6666cc" stroke="#000" stroke-width="2" />
+                    <path id="russia" d="M600,100 L650,100 L650,150 L600,150 Z" />
                 </g>
             </svg>
         </div>
@@ -167,5 +179,4 @@
 
 </body>
 </html>
-
 
