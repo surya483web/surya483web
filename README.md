@@ -13,6 +13,8 @@
             background: linear-gradient(135deg, #001f3f, #007bff, #00c3ff);
             color: white;
             text-align: center;
+            border: 5px solid white;
+            box-shadow: 0 0 20px white;
         }
         header {
             padding: 20px;
@@ -71,16 +73,48 @@
             border-radius: 10px;
             cursor: pointer;
             transition: 0.3s;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px white;
         }
         .dashboard div:hover {
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 40px white;
         }
-        .review-section {
+        .review-section, .security-section {
             display: none;
             padding: 20px;
             background: #333;
             border-radius: 10px;
+            box-shadow: 0 0 20px white;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: auto;
+            text-align: center;
+        }
+        .security-section {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px white;
+            width: 60%;
+            text-align: center;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            color: white;
+            background: red;
+            padding: 5px;
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -106,13 +140,21 @@
     <div class="dashboard">
         <div onclick="showReviews()">Customer Reviews</div>
         <div onclick="alert('Settings coming soon!')">Settings</div>
-        <div onclick="alert('More Security Features Available!')">Security Features</div>
+        <div onclick="showSecurityFeatures()">Security Features</div>
     </div>
     <div class="review-section" id="reviews">
         <h2>Customer Reviews</h2>
         <p>⭐⭐⭐⭐⭐ "Excellent security solutions!" - John D.</p>
         <p>⭐⭐⭐⭐⭐ "Reliable cameras with great night vision." - Sarah K.</p>
         <button onclick="hideReviews()">Close</button>
+    </div>
+    <div class="security-section" id="securityFeatures">
+        <span class="close-btn" onclick="hideSecurityFeatures()">✖</span>
+        <h2>Security Features</h2>
+        <p>✔ AI-Powered Motion Detection</p>
+        <p>✔ Night Vision Technology</p>
+        <p>✔ Cloud-Enabled Storage</p>
+        <p>✔ 360-Degree Monitoring</p>
     </div>
     <script>
         function toggleMenu() {
@@ -128,10 +170,15 @@
         function showAbout() {
             alert("Our company is located in Chennai.");
         }
+        function showSecurityFeatures() {
+            document.getElementById("securityFeatures").style.display = "block";
+        }
+        function hideSecurityFeatures() {
+            document.getElementById("securityFeatures").style.display = "none";
+        }
     </script>
 </body>
 </html>
-
 
 
 
