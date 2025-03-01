@@ -225,6 +225,29 @@
             color: #374151;
         }
         
+        .feature-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .feature-button {
+            padding: 5px 10px;
+            background-color: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.8rem;
+            color: #4b5563;
+        }
+        
+        .feature-button:hover {
+            background-color: #e5e7eb;
+        }
+        
         footer {
             text-align: center;
             margin-top: 20px;
@@ -240,6 +263,12 @@
             .message {
                 max-width: 90%;
             }
+            
+            .feature-buttons {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -252,6 +281,13 @@
                 <button class="model-option active" data-model="gpt-4">Advanced AI</button>
                 <button class="model-option" data-model="gpt-3.5">Standard AI</button>
                 <button class="model-option" data-model="dalle">Creative AI</button>
+            </div>
+            <div class="feature-buttons">
+                <button class="feature-button" data-feature="math">Calculate</button>
+                <button class="feature-button" data-feature="date">Today's Date</button>
+                <button class="feature-button" data-feature="day">Current Day</button>
+                <button class="feature-button" data-feature="time">Current Time</button>
+                <button class="feature-button" data-feature="name">Set My Name</button>
             </div>
         </header>
         
@@ -282,6 +318,9 @@
     </footer>
     
     <script>
+        // User preferences
+        let userName = "friend";
+        
         // List of potential AI responses to common questions
         const aiResponses = {
             greetings: [
@@ -307,9 +346,9 @@
             
             help: [
                 "I can help with information, answering questions, providing explanations, doing calculations, or just having a conversation. What would you like help with?",
-                "I'm an AI assistant designed to provide information, answer questions, and assist with various tasks. How can I help you today?",
-                "I can answer questions, provide information on a wide range of topics, help with creative tasks, and much more. What do you need assistance with?",
-                "I'm here to help! I can provide information, answer questions, offer explanations, or assist with various other tasks. What would you like to know?"
+                "I'm an AI assistant designed to provide information, answer questions, perform calculations, tell the date and time, and assist with various tasks. How can I help you today?",
+                "I can answer questions, provide information on a wide range of topics, help with creative tasks, perform math calculations, and tell you the current date and time. What do you need assistance with?",
+                "I'm here to help! I can provide information, answer questions, perform calculations, tell the date and time, and assist with various other tasks. What would you like to know?"
             ],
             
             identity: [
@@ -320,10 +359,10 @@
             ],
             
             capabilities: [
-                "I can provide information on many topics, answer questions, offer explanations, assist with creative tasks, generate text, and have conversations. However, I do have limitations - my knowledge has a cutoff date, and I can't browse the internet or access external tools unless specifically integrated.",
-                "I can answer questions, provide information, explain concepts, assist with writing and creative tasks, and engage in conversations. My abilities are text-based, so I can't directly interact with other systems or browse the internet.",
-                "I can help with information retrieval, answering questions, explaining concepts, generating text, assisting with creative tasks, and having conversations. I'm constantly being improved, but I do have limitations in terms of what data I have access to.",
-                "I can process and generate text to answer questions, provide information, explain ideas, assist with writing, and have conversations. I don't have the ability to browse the web or run code unless specifically enabled."
+                "I can provide information on many topics, answer questions, offer explanations, assist with creative tasks, generate text, perform math calculations, tell you the date and time, and have conversations.",
+                "I can answer questions, provide information, explain concepts, assist with writing and creative tasks, perform calculations, tell the date and time, and engage in conversations.",
+                "I can help with information retrieval, answering questions, explaining concepts, generating text, performing math calculations, providing date and time information, and having conversations.",
+                "I can process and generate text to answer questions, provide information, explain ideas, assist with writing, perform calculations, tell the date and time, and have conversations."
             ],
             
             weather: [
@@ -331,13 +370,6 @@
                 "I can't access real-time weather information. For accurate weather forecasts, I'd recommend checking a dedicated weather service.",
                 "I don't have the ability to check current weather conditions. You could try checking a weather website or app for that information.",
                 "Unfortunately, I don't have access to real-time weather data. A weather app or website would be your best option for current conditions."
-            ],
-            
-            time: [
-                "I don't have access to the current time in your location. Your device should display the current time, though!",
-                "I can't determine the current time for your specific location. Your computer or phone clock would be more accurate for this.",
-                "I don't have the ability to check the current time. Your device should show the accurate time for your location.",
-                "I don't have access to real-time data like the current time. Your device clock would be the best source for this information."
             ],
             
             jokes: [
@@ -365,18 +397,71 @@
             ]
         };
         
+        // Day names
+        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        
+        // Month names
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        
         // Smart response generation based on keywords
         function generateResponse(userMessage) {
             const message = userMessage.toLowerCase();
             
-            // Check for greetings
+            // Check for math calculations
+            const mathExpression = extractMathExpression(message);
+            if (mathExpression) {
+                try {
+                    const result = evaluateMathExpression(mathExpression);
+                    return `The result of ${mathExpression} is ${result}.`;
+                } catch (error) {
+                    return "I couldn't calculate that expression. Please check the format and try again.";
+                }
+            }
+            
+            // Check for date requests
+            if (/what ('s|is) (the|today'?s) date|current date|today'?s date/.test(message)) {
+                return getTodaysDate();
+            }
+            
+            // Check for day requests
+            if (/what ('s|is) (the|today'?s) day|current day|what day is (it|today)/.test(message)) {
+                return getCurrentDay();
+            }
+            
+            // Check for time requests
+            if (/what ('s|is) (the|current) time|current time|time now|time is it/.test(message)) {
+                return getCurrentTime();
+            }
+            
+            // Check for name setting
+            const nameMatch = message.match(/my name is (\w+)|call me (\w+)|i am (\w+)|i'm (\w+)/);
+            if (nameMatch) {
+                const newName = nameMatch[1] || nameMatch[2] || nameMatch[3] || nameMatch[4];
+                if (newName) {
+                    userName = newName.charAt(0).toUpperCase() + newName.slice(1).toLowerCase();
+                    return `Great! I'll call you ${userName} from now on. How can I help you today?`;
+                }
+            }
+            
+            // Check for name query
+            if (/what('s| is) my name|who am i|do you know (me|my name)/.test(message)) {
+                if (userName !== "friend") {
+                    return `Your name is ${userName}. Is there anything else I can help you with?`;
+                } else {
+                    return "I don't know your name yet. You can tell me by saying 'My name is...' or 'Call me...'.";
+                }
+            }
+            
+            // Check for greetings with name
             if (/^(hi|hello|hey|greetings)/.test(message)) {
-                return getRandomResponse(aiResponses.greetings);
+                const greeting = getRandomResponse(aiResponses.greetings);
+                return userName === "friend" ? greeting : greeting.replace("!", `, ${userName}!`);
             }
             
             // Check for goodbyes
             if (/^(bye|goodbye|farewell|see you)/.test(message)) {
-                return getRandomResponse(aiResponses.goodbye);
+                const goodbye = getRandomResponse(aiResponses.goodbye);
+                return userName === "friend" ? goodbye : goodbye.replace("!", `, ${userName}!`);
             }
             
             // Check for thanks
@@ -404,11 +489,6 @@
                 return getRandomResponse(aiResponses.weather);
             }
             
-            // Check for time
-            if (/what time|current time|clock/.test(message)) {
-                return getRandomResponse(aiResponses.time);
-            }
-            
             // Check for jokes
             if (/joke|funny|make me laugh/.test(message)) {
                 return getRandomResponse(aiResponses.jokes);
@@ -428,35 +508,120 @@
             return generateThoughtfulResponse(message);
         }
         
+        // Extract math expression from text
+        function extractMathExpression(text) {
+            // Check for common math expression patterns
+            
+            // Pattern 1: calculate X, compute X
+            const calcMatch = text.match(/(?:calculate|compute|solve)\s+(.+)/i);
+            if (calcMatch) return calcMatch[1].trim();
+            
+            // Pattern 2: what is X
+            const whatIsMatch = text.match(/what\s+is\s+(.+)/i);
+            if (whatIsMatch) {
+                const expr = whatIsMatch[1].trim();
+                // Check if it looks like a math expression
+                if (/[\d+\-*\/\(\)%\^]/.test(expr)) return expr;
+            }
+            
+            // Pattern 3: Direct expression with numbers and operators
+            const directMatch = text.match(/^\s*[\d+\-*\/\(\)%\^]+[\d+\-*\/\(\)%\^.\s]*$/);
+            if (directMatch) return directMatch[0].trim();
+            
+            return null;
+        }
+        
+        // Evaluate math expression
+        function evaluateMathExpression(expression) {
+            // Replace some common words with symbols
+            expression = expression
+                .replace(/plus/g, '+')
+                .replace(/minus/g, '-')
+                .replace(/times/g, '*')
+                .replace(/multiplied by/g, '*')
+                .replace(/divided by/g, '/')
+                .replace(/divided/g, '/')
+                .replace(/\^/g, '**')
+                .replace(/x/g, '*');
+            
+            // Use Function constructor to evaluate the expression
+            // This is a simple approach - a production app would use a proper math library
+            try {
+                // Security: This is for demonstration only - in production you'd use a proper math parser
+                return Function('"use strict"; return (' + expression + ')')();
+            } catch (e) {
+                throw new Error("Invalid expression");
+            }
+        }
+        
+        // Get today's date
+        function getTodaysDate() {
+            const now = new Date();
+            const day = now.getDate();
+            const month = monthNames[now.getMonth()];
+            const year = now.getFullYear();
+            
+            // Add ordinal suffix to day
+            let suffix = "th";
+            if (day % 10 === 1 && day !== 11) suffix = "st";
+            else if (day % 10 === 2 && day !== 12) suffix = "nd";
+            else if (day % 10 === 3 && day !== 13) suffix = "rd";
+            
+            return `Today's date is ${month} ${day}${suffix}, ${year}.`;
+        }
+        
+        // Get current day of week
+        function getCurrentDay() {
+            const now = new Date();
+            const dayName = dayNames[now.getDay()];
+            return `Today is ${dayName}.`;
+        }
+        
+        // Get current time
+        function getCurrentTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            
+            hours = hours % 12;
+            hours = hours ? hours : 12; // Convert 0 to 12
+            
+            return `The current time is ${hours}:${minutes} ${ampm}.`;
+        }
+        
         // Generate thoughtful responses for queries not matching predefined patterns
         function generateThoughtfulResponse(message) {
+            // Personalize response with name if available
+            const nameGreeting = userName !== "friend" ? `${userName}, ` : "";
+            
             // Look for question words
             if (message.includes("how")) {
-                return "That's an interesting question about methodology or process. I'd approach this by breaking it down into steps, understanding the context, and applying relevant principles. What specific aspects would you like me to elaborate on?";
+                return `${nameGreeting}that's an interesting question about methodology or process. I'd approach this by breaking it down into steps, understanding the context, and applying relevant principles. What specific aspects would you like me to elaborate on?`;
             }
             
             if (message.includes("why")) {
-                return "That's a great question about causality or reasoning. There could be multiple factors at play here, including historical context, underlying mechanisms, and various perspectives on the issue. Would you like me to explore any particular angle?";
+                return `${nameGreeting}that's a great question about causality or reasoning. There could be multiple factors at play here, including historical context, underlying mechanisms, and various perspectives on the issue. Would you like me to explore any particular angle?`;
             }
             
             if (message.includes("what")) {
-                return "Thanks for asking about this concept. From my understanding, this involves several important aspects worth exploring. To give you the most helpful answer, could you share a bit more about what specific information you're looking for?";
+                return `Thanks for asking about this concept, ${userName}. From my understanding, this involves several important aspects worth exploring. To give you the most helpful answer, could you share a bit more about what specific information you're looking for?`;
             }
             
             if (message.includes("where")) {
-                return "Location-based questions are interesting! While I don't have access to real-time location data, I can discuss general information about places, geographical concepts, and related topics. What specific location information are you curious about?";
+                return `${nameGreeting}location-based questions are interesting! While I don't have access to real-time location data, I can discuss general information about places, geographical concepts, and related topics. What specific location information are you curious about?`;
             }
             
             if (message.includes("when")) {
-                return "Timing is indeed important for this question. Historical context, sequence of events, and chronological development all play a role here. To better answer when, could you provide any additional context to your question?";
+                return `Timing is indeed important for this question, ${userName}. Historical context, sequence of events, and chronological development all play a role here. To better answer when, could you provide any additional context to your question?`;
             }
             
             if (message.includes("who")) {
-                return "Questions about individuals, groups, or entities are fascinating as they connect to human stories. To provide you with the most relevant information about who, could you clarify if you're asking about specific people, roles, or historical figures?";
+                return `${nameGreeting}questions about individuals, groups, or entities are fascinating as they connect to human stories. To provide you with the most relevant information about who, could you clarify if you're asking about specific people, roles, or historical figures?`;
             }
             
             // Default thoughtful response
-            return "That's an interesting topic to explore. My approach would be to consider multiple perspectives, look at the underlying principles, and think about practical applications. To provide you with the most helpful response, could you share more specific aspects you'd like me to address?";
+            return `That's an interesting topic to explore, ${userName}. My approach would be to consider multiple perspectives, look at the underlying principles, and think about practical applications. To provide you with the most helpful response, could you share more specific aspects you'd like me to address?`;
         }
         
         // Get random response from category
@@ -471,6 +636,7 @@
         const chatInput = document.getElementById('chat-input');
         const clearButton = document.getElementById('clear-chat');
         const modelOptions = document.querySelectorAll('.model-option');
+        const featureButtons = document.querySelectorAll('.feature-button');
         
         // Current model
         let currentModel = 'gpt-4';
@@ -480,6 +646,9 @@
         clearButton.addEventListener('click', clearChat);
         modelOptions.forEach(option => {
             option.addEventListener('click', setModel);
+        });
+        featureButtons.forEach(button => {
+            button.addEventListener('click', triggerFeature);
         });
         
         // Handle form submission
@@ -518,6 +687,58 @@
             }
         }
         
+        // Trigger feature buttons
+        function triggerFeature(e) {
+            const feature = e.target.dataset.feature;
+            
+            switch(feature) {
+                case 'math':
+                    chatInput.value = "Calculate ";
+                    chatInput.focus();
+                    break;
+                case 'date':
+                    handleFeatureResponse("What's today's date?", getTodaysDate());
+                    break;
+                case 'day':
+                    handleFeatureResponse("What day is it today?", getCurrentDay());
+                    break;
+                case 'time':
+                    handleFeatureResponse("What's the current time?", getCurrentTime());
+                    break;
+                case 'name':
+                    chatInput.value = "My name is ";
+                    chatInput.focus();
+                    break;
+            }
+        }
+        
+        // Handle feature button responses
+        function handleFeatureResponse(question, answer) {
+            // Add user question
+            addMessage(question, 'user');
+            
+            // Show thinking animation
+            const thinking = document.createElement('div');
+            thinking.className = 'thinking';
+            thinking.innerHTML = '<span></span><span></span><span></span>';
+            chatMessages.appendChild(thinking);
+            
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Process after a short delay
+            setTimeout(() => {
+                // Remove thinking animation
+                chatMessages.removeChild(thinking);
+                
+                // Add AI response
+                addMessage(answer, 'bot');
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 800);
+        }
+        
         // Add message to chat
         function addMessage(text, sender) {
             const message = document.createElement('div');
@@ -533,7 +754,11 @@
             }
             
             // Add welcome message
-            addMessage('Hello! I\'m your AI assistant. How can I help you today?', 'bot');
+            const greeting = userName === "friend" 
+                ? "Hello! I'm your AI assistant. How can I help you today?" 
+                : `Hello, ${userName}! I'm your AI assistant. How can I help you today?`;
+            
+            addMessage(greeting, 'bot');
         }
         
         // Set AI model
@@ -550,11 +775,6 @@
             currentModel = this.dataset.model;
             
             // Add model change message
-            addMessage(`I've switched to ${this.textContent} mode. How can I help you?`, 'bot');
-            
-            // Scroll to bottom
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-    </script>
-</body>
-</html>
+            const modelMessage = userName === "friend"
+                ? `I've switched to ${this.textContent} mode. How can I help you?`
+                : `I've switched to ${this.textContent} mode, ${userName}. How can I help you?`;
