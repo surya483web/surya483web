@@ -1,174 +1,137 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio to Text Converter</title>
+    <title>GV SAFE SITE CONSTRUCTION CAMERAS</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        h1 {
-            color: #333;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #001f3f, #007bff, #00c3ff);
+            color: white;
             text-align: center;
+        }
+        header {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            letter-spacing: 3px;
+        }
+        .top-right-menu {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 24px;
+            background: #ffcc00;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: black;
+        }
+        .menu-content {
+            display: none;
+            position: absolute;
+            right: 20px;
+            top: 50px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .menu-content a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 5px;
         }
         .container {
-            margin-top: 30px;
+            padding: 50px;
+            background: url('https://source.unsplash.com/1600x900/?cctv,security') no-repeat center center/cover;
+            min-height: 60vh;
         }
-        .controls {
+        .features {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .dashboard {
+            padding: 20px;
+            background: #222;
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            justify-content: space-around;
+            flex-wrap: wrap;
         }
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
+        .dashboard div {
+            background: #444;
+            padding: 20px;
+            width: 30%;
+            margin: 10px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            transition: 0.3s;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
-        #startRecording {
-            background-color: #4CAF50;
-            color: white;
+        .dashboard div:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
         }
-        #stopRecording {
-            background-color: #f44336;
-            color: white;
+        .review-section {
             display: none;
-        }
-        #transcript {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 4px;
-            min-height: 150px;
-            max-height: 300px;
-            overflow-y: auto;
-            background-color: #f9f9f9;
-        }
-        .status {
-            text-align: center;
-            margin-bottom: 10px;
-            font-style: italic;
-            color: #666;
-        }
-        .final {
-            color: #333;
-        }
-        .interim {
-            color: #999;
+            padding: 20px;
+            background: #333;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Audio to Text Converter</h1>
-    
-    <div class="container">
-        <div class="status" id="status">Ready to record</div>
-        
-        <div class="controls">
-            <button id="startRecording">Start Recording</button>
-            <button id="stopRecording">Stop Recording</button>
+    <header>
+        <h1>📷 GV SAFE SITE CONSTRUCTION CAMERAS 📷</h1>
+        <div class="top-right-menu" onclick="toggleMenu()">☰</div>
+        <div class="menu-content" id="menuContent">
+            <a href="#" onclick="showAbout()">About Us</a>
+            <a href="#contact">Contact Us</a>
+            <a href="mailto:surya.murali109@gmail.com">Email</a>
+            <a href="https://wa.me/9342792571">WhatsApp</a>
         </div>
-        
-        <div id="transcript"></div>
+    </header>
+    <div class="container">
+        <h2>24/7 Surveillance | AI-powered Monitoring | High-Resolution CCTV</h2>
+        <p>Secure your site with the best-in-class CCTV solutions, ensuring safety and real-time monitoring.</p>
+        <div class="features">
+            <p>✔ Live HD Streaming | ✔ Motion Detection | ✔ Cloud Storage</p>
+        </div>
+        <div class="contact">Call Us: 1300 638 632</div>
     </div>
-    
+    <div class="dashboard">
+        <div onclick="showReviews()">Customer Reviews</div>
+        <div onclick="alert('Settings coming soon!')">Settings</div>
+        <div onclick="alert('More Security Features Available!')">Security Features</div>
+    </div>
+    <div class="review-section" id="reviews">
+        <h2>Customer Reviews</h2>
+        <p>⭐⭐⭐⭐⭐ "Excellent security solutions!" - John D.</p>
+        <p>⭐⭐⭐⭐⭐ "Reliable cameras with great night vision." - Sarah K.</p>
+        <button onclick="hideReviews()">Close</button>
+    </div>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const startButton = document.getElementById('startRecording');
-            const stopButton = document.getElementById('stopRecording');
-            const transcript = document.getElementById('transcript');
-            const status = document.getElementById('status');
-            
-            let recognition;
-            let isRecording = false;
-            let finalTranscript = '';
-            
-            // Check if browser supports speech recognition
-            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                status.textContent = 'Speech recognition is not supported in this browser. Please try Chrome, Edge, or Safari.';
-                startButton.disabled = true;
-                return;
-            }
-            
-            // Initialize speech recognition
-            recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.continuous = true;
-            recognition.interimResults = true;
-            recognition.lang = 'en-US'; // Default language
-            
-            // Handle results
-            recognition.onresult = (event) => {
-                let interimTranscript = '';
-                
-                for (let i = event.resultIndex; i < event.results.length; i++) {
-                    const result = event.results[i];
-                    const text = result[0].transcript;
-                    
-                    if (result.isFinal) {
-                        finalTranscript += text + ' ';
-                    } else {
-                        interimTranscript += text;
-                    }
-                }
-                
-                transcript.innerHTML = `
-                    <div class="final">${finalTranscript}</div>
-                    <div class="interim">${interimTranscript}</div>
-                `;
-            };
-            
-            // Handle start
-            recognition.onstart = () => {
-                isRecording = true;
-                status.textContent = 'Recording... Speak now';
-                startButton.style.display = 'none';
-                stopButton.style.display = 'inline-block';
-            };
-            
-            // Handle end
-            recognition.onend = () => {
-                if (isRecording) {
-                    // If still recording when onend fires, restart
-                    recognition.start();
-                } else {
-                    status.textContent = 'Recording stopped';
-                    startButton.style.display = 'inline-block';
-                    stopButton.style.display = 'none';
-                }
-            };
-            
-            // Handle errors
-            recognition.onerror = (event) => {
-                status.textContent = `Error occurred: ${event.error}`;
-                isRecording = false;
-                startButton.style.display = 'inline-block';
-                stopButton.style.display = 'none';
-            };
-            
-            // Start recording
-            startButton.addEventListener('click', () => {
-                finalTranscript = '';
-                transcript.innerHTML = '';
-                isRecording = true;
-                recognition.start();
-            });
-            
-            // Stop recording
-            stopButton.addEventListener('click', () => {
-                isRecording = false;
-                recognition.stop();
-            });
-        });
+        function toggleMenu() {
+            var menu = document.getElementById("menuContent");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+        function showReviews() {
+            document.getElementById("reviews").style.display = "block";
+        }
+        function hideReviews() {
+            document.getElementById("reviews").style.display = "none";
+        }
+        function showAbout() {
+            alert("Our company is located in Chennai.");
+        }
     </script>
 </body>
 </html>
+
 
 
 
