@@ -1,173 +1,172 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini AI Chatbot</title>
+    <title>Audio to Text Converter</title>
     <style>
         body {
-            background: #121212;
-            color: white;
             font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            margin-top: 30px;
+        }
+        .controls {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
             justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
         }
-        .chat-container {
-            width: 400px;
-            height: 500px;
-            overflow-y: auto;
-            border: 1px solid #444;
-            border-radius: 10px;
-            padding: 10px;
-            background: #222;
-        }
-        .message {
-            margin: 10px;
-            padding: 10px;
-            border-radius: 10px;
-            max-width: 80%;
-            line-height: 1.4;
-        }
-        .user-message {
-            background: #4a6ee0;
-            align-self: flex-end;
-            text-align: right;
-        }
-        .bot-message {
-            background: #333;
-            align-self: flex-start;
-        }
-        .input-container {
-            display: flex;
-            width: 400px;
-            margin-top: 10px;
-        }
-        .input-field {
-            flex: 1;
-            padding: 10px;
-            border-radius: 5px;
+        button {
+            padding: 10px 20px;
             border: none;
-            background: #444;
-            color: white;
-        }
-        .send-btn {
-            background: #10a37f;
-            color: white;
-            border: none;
-            padding: 10px;
+            border-radius: 4px;
             cursor: pointer;
-            border-radius: 5px;
-            margin-left: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
         }
-        .settings-container {
-            margin-top: 20px;
-            width: 400px;
-            background: #222;
-            padding: 10px;
-            border-radius: 10px;
+        #startRecording {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #stopRecording {
+            background-color: #f44336;
+            color: white;
+            display: none;
+        }
+        #transcript {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+            min-height: 150px;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+        }
+        .status {
             text-align: center;
+            margin-bottom: 10px;
+            font-style: italic;
+            color: #666;
         }
-        .settings-table {
-            width: 100%;
-            border-collapse: collapse;
+        .final {
+            color: #333;
         }
-        .settings-table th, .settings-table td {
-            border: 1px solid #444;
-            padding: 5px;
-            text-align: center;
+        .interim {
+            color: #999;
         }
     </style>
 </head>
 <body>
-
-    <h2>Gemini AI Chatbot</h2>
-    <div class="chat-container" id="chat-container"></div>
-
-    <div class="input-container">
-        <input type="text" id="user-input" class="input-field" placeholder="Ask me anything...">
-        <button id="send-btn" class="send-btn">Send</button>
+    <h1>Audio to Text Converter</h1>
+    
+    <div class="container">
+        <div class="status" id="status">Ready to record</div>
+        
+        <div class="controls">
+            <button id="startRecording">Start Recording</button>
+            <button id="stopRecording">Stop Recording</button>
+        </div>
+        
+        <div id="transcript"></div>
     </div>
-
-    <div class="settings-container">
-        <h3>API Settings</h3>
-        <table class="settings-table">
-            <tr>
-                <th>AI Model</th>
-                <th>API Key</th>
-            </tr>
-            <tr>
-                <td>Gemini AI</td>
-                <td><input type="password" id="gemini-key" placeholder="Enter Gemini API Key"></td>
-            </tr>
-        </table>
-    </div>
-
+    
     <script>
-        const chatContainer = document.getElementById('chat-container');
-        const userInput = document.getElementById('user-input');
-        const sendBtn = document.getElementById('send-btn');
-
-        sendBtn.addEventListener('click', handleUserInput);
-        userInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                handleUserInput();
-            }
-        });
-
-        function handleUserInput() {
-            const message = userInput.value.trim();
-            if (message === "") return;
-
-            addMessage("You", message, "user-message");
-            userInput.value = "";
-
-            fetchAIResponse(message);
-        }
-
-        function addMessage(sender, text, className) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${className}`;
-            messageDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
-            chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        async function fetchAIResponse(userMessage) {
-            const apiKey = document.getElementById('gemini-key').value;
-            if (!apiKey) {
-                addMessage("AI", "Please enter a valid Gemini API Key.", "bot-message");
+        document.addEventListener('DOMContentLoaded', () => {
+            const startButton = document.getElementById('startRecording');
+            const stopButton = document.getElementById('stopRecording');
+            const transcript = document.getElementById('transcript');
+            const status = document.getElementById('status');
+            
+            let recognition;
+            let isRecording = false;
+            let finalTranscript = '';
+            
+            // Check if browser supports speech recognition
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                status.textContent = 'Speech recognition is not supported in this browser. Please try Chrome, Edge, or Safari.';
+                startButton.disabled = true;
                 return;
             }
-
-            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateText?key=${apiKey}`;
-            const requestBody = { prompt: { text: userMessage } };
-
-            try {
-                const response = await fetch(endpoint, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(requestBody)
-                });
-
-                const data = await response.json();
-                console.log("API Response:", data);  // Debugging
-
-                if (data.candidates && data.candidates.length > 0) {
-                    addMessage("AI", data.candidates[0].output, "bot-message");
-                } else {
-                    addMessage("AI", "No valid response from Gemini AI.", "bot-message");
+            
+            // Initialize speech recognition
+            recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'en-US'; // Default language
+            
+            // Handle results
+            recognition.onresult = (event) => {
+                let interimTranscript = '';
+                
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const result = event.results[i];
+                    const text = result[0].transcript;
+                    
+                    if (result.isFinal) {
+                        finalTranscript += text + ' ';
+                    } else {
+                        interimTranscript += text;
+                    }
                 }
-            } catch (error) {
-                addMessage("AI", "Error fetching response. Check console.", "bot-message");
-                console.error(error);
-            }
-        }
+                
+                transcript.innerHTML = `
+                    <div class="final">${finalTranscript}</div>
+                    <div class="interim">${interimTranscript}</div>
+                `;
+            };
+            
+            // Handle start
+            recognition.onstart = () => {
+                isRecording = true;
+                status.textContent = 'Recording... Speak now';
+                startButton.style.display = 'none';
+                stopButton.style.display = 'inline-block';
+            };
+            
+            // Handle end
+            recognition.onend = () => {
+                if (isRecording) {
+                    // If still recording when onend fires, restart
+                    recognition.start();
+                } else {
+                    status.textContent = 'Recording stopped';
+                    startButton.style.display = 'inline-block';
+                    stopButton.style.display = 'none';
+                }
+            };
+            
+            // Handle errors
+            recognition.onerror = (event) => {
+                status.textContent = `Error occurred: ${event.error}`;
+                isRecording = false;
+                startButton.style.display = 'inline-block';
+                stopButton.style.display = 'none';
+            };
+            
+            // Start recording
+            startButton.addEventListener('click', () => {
+                finalTranscript = '';
+                transcript.innerHTML = '';
+                isRecording = true;
+                recognition.start();
+            });
+            
+            // Stop recording
+            stopButton.addEventListener('click', () => {
+                isRecording = false;
+                recognition.stop();
+            });
+        });
     </script>
-
 </body>
 </html>
 
