@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -143,10 +143,8 @@
                 return;
             }
 
-            const endpoint = `https://generativelanguage.googleapis.com/v1/models/gemini:generateText?key=${apiKey}`;
-            const requestBody = {
-                prompt: { text: userMessage }
-            };
+            const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateText?key=${apiKey}`;
+            const requestBody = { prompt: { text: userMessage } };
 
             try {
                 const response = await fetch(endpoint, {
@@ -156,13 +154,15 @@
                 });
 
                 const data = await response.json();
+                console.log("API Response:", data);  // Debugging
+
                 if (data.candidates && data.candidates.length > 0) {
                     addMessage("AI", data.candidates[0].output, "bot-message");
                 } else {
-                    addMessage("AI", "No valid response received from Gemini AI.", "bot-message");
+                    addMessage("AI", "No valid response from Gemini AI.", "bot-message");
                 }
             } catch (error) {
-                addMessage("AI", "Error fetching response. Check the console.", "bot-message");
+                addMessage("AI", "Error fetching response. Check console.", "bot-message");
                 console.error(error);
             }
         }
@@ -170,5 +170,6 @@
 
 </body>
 </html>
+
 
 
