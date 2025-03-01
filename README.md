@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -33,6 +33,7 @@
             padding: 5px 10px;
             border-radius: 5px;
             color: black;
+            box-shadow: 0 0 15px white;
         }
         .menu-content {
             display: none;
@@ -64,6 +65,7 @@
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
+            box-shadow: 0 0 20px white;
         }
         .dashboard div {
             background: #444;
@@ -98,23 +100,20 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: 60%;
             background: #222;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 20px white;
-            width: 60%;
-            text-align: center;
         }
         .close-btn {
             position: absolute;
             top: 10px;
             right: 15px;
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
-            color: white;
-            background: red;
-            padding: 5px;
-            border-radius: 50%;
+            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -146,7 +145,7 @@
         <h2>Customer Reviews</h2>
         <p>⭐⭐⭐⭐⭐ "Excellent security solutions!" - John D.</p>
         <p>⭐⭐⭐⭐⭐ "Reliable cameras with great night vision." - Sarah K.</p>
-        <button onclick="hideReviews()">Close</button>
+        <span class="close-btn" onclick="hideReviews()">✖</span>
     </div>
     <div class="security-section" id="securityFeatures">
         <span class="close-btn" onclick="hideSecurityFeatures()">✖</span>
@@ -179,6 +178,3 @@
     </script>
 </body>
 </html>
-
-
-
