@@ -1,172 +1,89 @@
-  <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chatbot (ChatGPT & Claude)</title>
+    <title>Gemini AI Chatbot</title>
     <style>
-        body {
-            background: #121212;
-            color: white;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            justify-content: center;
-        }
-        .chat-container {
-            width: 400px;
-            height: 500px;
-            overflow-y: auto;
-            border: 1px solid #444;
-            border-radius: 10px;
-            padding: 10px;
-            background: #222;
-        }
-        .message {
-            margin: 10px;
-            padding: 10px;
-            border-radius: 10px;
-            max-width: 80%;
-            line-height: 1.4;
-        }
-        .user-message {
-            background: #4a6ee0;
-            text-align: right;
-        }
-        .bot-message {
-            background: #333;
-        }
-        .input-container {
-            display: flex;
-            width: 400px;
-            margin-top: 10px;
-        }
-        .input-field {
-            flex: 1;
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            background: #444;
-            color: white;
-        }
-        .send-btn {
-            background: #10a37f;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-left: 5px;
-        }
-        .settings-container {
-            margin-top: 10px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        #chatbox { width: 100%; height: 400px; border: 2px solid #4CAF50; border-radius: 10px; overflow-y: scroll; padding: 10px; background: white; }
+        #userInput { width: 75%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        #sendButton { padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #sendButton:hover { background-color: #45a049; }
+        .message { margin: 5px 0; padding: 5px; border-radius: 5px; }
+        .user { background-color: #d1e7dd; text-align: right; }
+        .bot { background-color: #f8d7da; text-align: left; }
+        .timestamp { font-size: 12px; color: gray; }
     </style>
 </head>
 <body>
-
-    <h2>AI Chatbot</h2>
-    
-    <div class="settings-container">
-        <label for="api-key">API Key:</label>
-        <input type="password" id="api-key" placeholder="Enter your API key">
-        
-        <label for="ai-model">Choose AI:</label>
-        <select id="ai-model">
-            <option value="gpt-4">ChatGPT (GPT-4)</option>
-            <option value="claude-3">Claude AI</option>
-        </select>
-    </div>
-
-    <div class="chat-container" id="chat-container"></div>
-
-    <div class="input-container">
-        <input type="text" id="user-input" class="input-field" placeholder="Ask me anything...">
-        <button id="send-btn" class="send-btn">Send</button>
-    </div>
+    <h2 style="color: #4CAF50; text-align: center;">Gemini AI Chatbot 🤖</h2>
+    <div id="chatbox"></div>
+    <input type="text" id="userInput" placeholder="Type a message...">
+    <button id="sendButton">Send</button>
 
     <script>
-        const chatContainer = document.getElementById('chat-container');
-        const userInput = document.getElementById('user-input');
-        const sendBtn = document.getElementById('send-btn');
+        const apiKey = "YOUR_GEMINI_API_KEY"; // Replace with your Gemini API key
+        const chatbox = document.getElementById("chatbox");
+        const userInput = document.getElementById("userInput");
+        const sendButton = document.getElementById("sendButton");
 
-        sendBtn.addEventListener('click', handleUserInput);
-        userInput.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault();
-                handleUserInput();
+        function getTimeStamp() {
+            const now = new Date();
+            return now.toLocaleTimeString();
+        }
+
+        function appendMessage(role, message) {
+            const messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", role);
+            messageDiv.innerHTML = `<p><strong>${role === "user" ? "You" : "Bot"}:</strong> ${message}</p>`;
+            messageDiv.innerHTML += `<span class='timestamp'>${getTimeStamp()}</span>`;
+            chatbox.appendChild(messageDiv);
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        function evaluateMath(input) {
+            try {
+                return eval(input);
+            } catch {
+                return "Invalid math expression.";
             }
-        });
+        }
 
-        function handleUserInput() {
-            const message = userInput.value.trim();
-            if (message === "") return;
+        async function sendMessage() {
+            let message = userInput.value.trim();
+            if (!message) return;
 
-            addMessage("You", message, "user-message");
+            appendMessage("user", message);
             userInput.value = "";
-            
-            fetchAIResponse(message);
-        }
 
-        function addMessage(sender, text, className) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${className}`;
-            messageDiv.innerHTML = `<strong>${sender}:</strong> ${text}`;
-            chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        async function fetchAIResponse(userMessage) {
-            const apiKey = document.getElementById('api-key').value;
-            const aiModel = document.getElementById('ai-model').value;
-
-            if (!apiKey) {
-                addMessage("AI", "Please enter an API key.", "bot-message");
+            if (/^\d+[\+\-\*\/]\d+$/.test(message)) {
+                appendMessage("bot", "Math result: " + evaluateMath(message));
                 return;
             }
 
-            let apiUrl, requestBody;
+            const response = await fetch("https://api.gemini.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "gemini-pro",
+                    messages: [{ role: "user", content: message }]
+                })
+            });
 
-            if (aiModel === "gpt-4") {
-                apiUrl = "https://api.openai.com/v1/chat/completions";
-                requestBody = {
-                    model: "gpt-4",
-                    messages: [{ role: "user", content: userMessage }],
-                    max_tokens: 200
-                };
-            } else if (aiModel === "claude-3") {
-                apiUrl = "https://api.anthropic.com/v1/messages";
-                requestBody = {
-                    model: "claude-3",
-                    messages: [{ role: "user", content: userMessage }],
-                    max_tokens: 200
-                };
-            }
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${apiKey}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(requestBody)
-                });
-
-                const data = await response.json();
-                if (data.choices && data.choices.length > 0) {
-                    addMessage("AI", data.choices[0].message.content, "bot-message");
-                } else {
-                    addMessage("AI", "No valid response received.", "bot-message");
-                }
-            } catch (error) {
-                addMessage("AI", "Error fetching response. Check the console.", "bot-message");
-                console.error("API Fetch Error:", error);
-            }
+            const data = await response.json();
+            const botReply = data.choices[0]?.message?.content || "Error retrieving response";
+            appendMessage("bot", botReply);
         }
-    </script>
 
+        sendButton.addEventListener("click", sendMessage);
+        userInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") sendMessage();
+        });
+    </script>
 </body>
 </html>
+
