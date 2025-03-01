@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chatbot</title>
+    <title>Multi-AI Chatbot</title>
     <style>
         body {
             background: #121212;
@@ -62,21 +62,47 @@
             border-radius: 5px;
             margin-left: 5px;
         }
-        .ai-selector {
-            margin-bottom: 10px;
+        .settings-container {
+            margin-top: 20px;
+            width: 400px;
+            background: #222;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .settings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .settings-table th, .settings-table td {
+            border: 1px solid #444;
+            padding: 5px;
+            text-align: center;
+        }
+        .typing-indicator {
+            display: flex;
+            padding: 10px;
+        }
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: typing 1.5s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.3; transform: scale(1); }
         }
     </style>
 </head>
 <body>
 
-    <h2>AI Chatbot (ChatGPT, Claude, Gemini)</h2>
-
-    <select id="ai-model" class="ai-selector">
-        <option value="gpt-4">ChatGPT (GPT-4)</option>
-        <option value="claude">Claude AI</option>
-        <option value="gemini">Gemini AI</option>
-    </select>
-
+    <h2>Multi-AI Chatbot</h2>
     <div class="chat-container" id="chat-container"></div>
 
     <div class="input-container">
@@ -84,18 +110,37 @@
         <button id="send-btn" class="send-btn">Send</button>
     </div>
 
+    <div class="settings-container">
+        <h3>API Settings</h3>
+        <table class="settings-table">
+            <tr>
+                <th>AI Model</th>
+                <th>API Key</th>
+            </tr>
+            <tr>
+                <td>ChatGPT</td>
+                <td><input type="password" id="openai-key" placeholder="Enter OpenAI Key"></td>
+            </tr>
+            <tr>
+                <td>Claude</td>
+                <td><input type="password" id="claude-key" placeholder="Enter Claude Key"></td>
+            </tr>
+            <tr>
+                <td>Gemini</td>
+                <td><input type="password" id="gemini-key" placeholder="Enter Gemini Key"></td>
+            </tr>
+        </table>
+        <select id="ai-model">
+            <option value="chatgpt">ChatGPT</option>
+            <option value="claude">Claude</option>
+            <option value="gemini">Gemini</option>
+        </select>
+    </div>
+
     <script>
         const chatContainer = document.getElementById('chat-container');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
-        const aiModelSelector = document.getElementById('ai-model');
-
-        // API Keys (Replace with your actual keys)
-        const API_KEYS = {
-            "gpt-4": "YOUR_OPENAI_API_KEY",
-            "claude": "YOUR_CLAUDE_API_KEY",
-            "gemini": "YOUR_GEMINI_API_KEY"
-        };
 
         sendBtn.addEventListener('click', handleUserInput);
         userInput.addEventListener('keydown', (event) => {
@@ -111,7 +156,8 @@
 
             addMessage("You", message, "user-message");
             userInput.value = "";
-            
+
+            showTypingIndicator();
             fetchAIResponse(message);
         }
 
@@ -123,42 +169,44 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+            chatContainer.appendChild(typingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
         async function fetchAIResponse(userMessage) {
-            const selectedModel = aiModelSelector.value;
-            const apiKey = API_KEYS[selectedModel];
+            const model = document.getElementById('ai-model').value;
+            let apiKey, endpoint, requestBody;
 
-            if (!apiKey) {
-                addMessage("AI", "API key missing! Please update the script.", "bot-message");
-                return;
-            }
-
-            let apiUrl = "";
-            let requestBody = {};
-
-            if (selectedModel === "gpt-4") {
-                apiUrl = "https://api.openai.com/v1/chat/completions";
+            if (model === "chatgpt") {
+                apiKey = document.getElementById('openai-key').value;
+                endpoint = "https://api.openai.com/v1/chat/completions";
                 requestBody = {
                     model: "gpt-4",
                     messages: [{ role: "user", content: userMessage }],
                     max_tokens: 200
                 };
-            } else if (selectedModel === "claude") {
-                apiUrl = "https://api.anthropic.com/v1/complete";
+            } else if (model === "claude") {
+                apiKey = document.getElementById('claude-key').value;
+                endpoint = "https://api.anthropic.com/v1/messages";
                 requestBody = {
-                    prompt: userMessage,
                     model: "claude-3",
-                    max_tokens_to_sample: 200
+                    prompt: userMessage,
+                    max_tokens: 200
                 };
-            } else if (selectedModel === "gemini") {
-                apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateText";
+            } else if (model === "gemini") {
+                apiKey = document.getElementById('gemini-key').value;
+                endpoint = "https://generativelanguage.googleapis.com/v1/models/gemini:generateText?key=" + apiKey;
                 requestBody = {
-                    prompt: { text: userMessage },
-                    temperature: 0.7
+                    prompt: { text: userMessage }
                 };
             }
 
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch(endpoint, {
                     method: "POST",
                     headers: {
                         "Authorization": `Bearer ${apiKey}`,
@@ -168,24 +216,16 @@
                 });
 
                 const data = await response.json();
-                console.log("API Response:", data);
-
-                let botResponse = "I couldn't generate a response.";
-                if (selectedModel === "gpt-4" && data.choices) {
-                    botResponse = data.choices[0].message.content;
-                } else if (selectedModel === "claude" && data.completion) {
-                    botResponse = data.completion;
-                } else if (selectedModel === "gemini" && data.candidates) {
-                    botResponse = data.candidates[0].output;
-                }
-
-                addMessage("AI", botResponse, "bot-message");
+                document.querySelector('.typing-indicator').remove();
+                addMessage("AI", JSON.stringify(data), "bot-message"); // Modify this to extract actual AI response
             } catch (error) {
-                console.error("API Fetch Error:", error);
+                document.querySelector('.typing-indicator').remove();
                 addMessage("AI", "Error fetching response. Check the console.", "bot-message");
+                console.error(error);
             }
         }
     </script>
 
 </body>
 </html>
+
