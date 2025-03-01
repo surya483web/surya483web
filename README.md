@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chatbot</title>
+    <title>AI Chatbot (ChatGPT & Claude)</title>
     <style>
         body {
             background: #121212;
@@ -33,12 +33,10 @@
         }
         .user-message {
             background: #4a6ee0;
-            align-self: flex-end;
             text-align: right;
         }
         .bot-message {
             background: #333;
-            align-self: flex-start;
         }
         .input-container {
             display: flex;
@@ -62,35 +60,30 @@
             border-radius: 5px;
             margin-left: 5px;
         }
-        .typing-indicator {
-            display: flex;
-            padding: 10px;
-        }
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: white;
-            border-radius: 50%;
-            margin: 0 3px;
-            animation: typing 1.5s infinite;
-        }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing {
-            0% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-            100% { opacity: 0.3; transform: scale(1); }
+        .settings-container {
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
     <h2>AI Chatbot</h2>
+    
+    <div class="settings-container">
+        <label for="api-key">API Key:</label>
+        <input type="password" id="api-key" placeholder="Enter your API key">
+        
+        <label for="ai-model">Choose AI:</label>
+        <select id="ai-model">
+            <option value="gpt-4">ChatGPT (GPT-4)</option>
+            <option value="claude-3">Claude AI</option>
+        </select>
+    </div>
+
     <div class="chat-container" id="chat-container"></div>
 
     <div class="input-container">
         <input type="text" id="user-input" class="input-field" placeholder="Ask me anything...">
-        <button id="voice-btn" class="send-btn">🎤</button>
         <button id="send-btn" class="send-btn">Send</button>
     </div>
 
@@ -98,10 +91,6 @@
         const chatContainer = document.getElementById('chat-container');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
-
-        // API Key (Replace with your OpenAI API Key)
-        const API_KEY = "YOUR_API_KEY";
-        const API_ENDPOINT = "https://api.openai.com/v1/chat/completions";
 
         sendBtn.addEventListener('click', handleUserInput);
         userInput.addEventListener('keydown', (event) => {
@@ -118,7 +107,6 @@
             addMessage("You", message, "user-message");
             userInput.value = "";
             
-            showTypingIndicator();
             fetchAIResponse(message);
         }
 
@@ -130,51 +118,54 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            typingDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
-            chatContainer.appendChild(typingDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
         async function fetchAIResponse(userMessage) {
+            const apiKey = document.getElementById('api-key').value;
+            const aiModel = document.getElementById('ai-model').value;
+
+            if (!apiKey) {
+                addMessage("AI", "Please enter an API key.", "bot-message");
+                return;
+            }
+
+            let apiUrl, requestBody;
+
+            if (aiModel === "gpt-4") {
+                apiUrl = "https://api.openai.com/v1/chat/completions";
+                requestBody = {
+                    model: "gpt-4",
+                    messages: [{ role: "user", content: userMessage }],
+                    max_tokens: 200
+                };
+            } else if (aiModel === "claude-3") {
+                apiUrl = "https://api.anthropic.com/v1/messages";
+                requestBody = {
+                    model: "claude-3",
+                    messages: [{ role: "user", content: userMessage }],
+                    max_tokens: 200
+                };
+            }
+
             try {
-                const response = await fetch(API_ENDPOINT, {
+                const response = await fetch(apiUrl, {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${API_KEY}`,
+                        "Authorization": `Bearer ${apiKey}`,
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({
-                        model: "gpt-4",
-                        messages: [{ role: "user", content: userMessage }],
-                        max_tokens: 200
-                    })
+                    body: JSON.stringify(requestBody)
                 });
 
                 const data = await response.json();
-                document.querySelector('.typing-indicator').remove();
-                const botResponse = data.choices[0].message.content;
-                addMessage("AI", botResponse, "bot-message");
+                if (data.choices && data.choices.length > 0) {
+                    addMessage("AI", data.choices[0].message.content, "bot-message");
+                } else {
+                    addMessage("AI", "No valid response received.", "bot-message");
+                }
             } catch (error) {
-                document.querySelector('.typing-indicator').remove();
-                addMessage("AI", "Error fetching response. Check your API key.", "bot-message");
+                addMessage("AI", "Error fetching response. Check the console.", "bot-message");
+                console.error("API Fetch Error:", error);
             }
         }
-
-        // Voice Input (Speech-to-Text)
-        document.getElementById('voice-btn').addEventListener('click', () => {
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.lang = 'en-US';
-
-            recognition.onresult = (event) => {
-                userInput.value = event.results[0][0].transcript;
-                handleUserInput();
-            };
-
-            recognition.start();
-        });
     </script>
 
 </body>
