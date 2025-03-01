@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-AI Chatbot</title>
+    <title>Gemini AI Chatbot</title>
     <style>
         body {
             background: #121212;
@@ -79,30 +79,11 @@
             padding: 5px;
             text-align: center;
         }
-        .typing-indicator {
-            display: flex;
-            padding: 10px;
-        }
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: white;
-            border-radius: 50%;
-            margin: 0 3px;
-            animation: typing 1.5s infinite;
-        }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing {
-            0% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-            100% { opacity: 0.3; transform: scale(1); }
-        }
     </style>
 </head>
 <body>
 
-    <h2>Multi-AI Chatbot</h2>
+    <h2>Gemini AI Chatbot</h2>
     <div class="chat-container" id="chat-container"></div>
 
     <div class="input-container">
@@ -118,23 +99,10 @@
                 <th>API Key</th>
             </tr>
             <tr>
-                <td>ChatGPT</td>
-                <td><input type="password" id="openai-key" placeholder="Enter OpenAI Key"></td>
-            </tr>
-            <tr>
-                <td>Claude</td>
-                <td><input type="password" id="claude-key" placeholder="Enter Claude Key"></td>
-            </tr>
-            <tr>
-                <td>Gemini</td>
-                <td><input type="password" id="gemini-key" placeholder="Enter Gemini Key"></td>
+                <td>Gemini AI</td>
+                <td><input type="password" id="gemini-key" placeholder="Enter Gemini API Key"></td>
             </tr>
         </table>
-        <select id="ai-model">
-            <option value="chatgpt">ChatGPT</option>
-            <option value="claude">Claude</option>
-            <option value="gemini">Gemini</option>
-        </select>
     </div>
 
     <script>
@@ -157,7 +125,6 @@
             addMessage("You", message, "user-message");
             userInput.value = "";
 
-            showTypingIndicator();
             fetchAIResponse(message);
         }
 
@@ -169,57 +136,32 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'typing-indicator';
-            typingDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
-            chatContainer.appendChild(typingDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
         async function fetchAIResponse(userMessage) {
-            const model = document.getElementById('ai-model').value;
-            let apiKey, endpoint, requestBody;
-
-            if (model === "chatgpt") {
-                apiKey = document.getElementById('openai-key').value;
-                endpoint = "https://api.openai.com/v1/chat/completions";
-                requestBody = {
-                    model: "gpt-4",
-                    messages: [{ role: "user", content: userMessage }],
-                    max_tokens: 200
-                };
-            } else if (model === "claude") {
-                apiKey = document.getElementById('claude-key').value;
-                endpoint = "https://api.anthropic.com/v1/messages";
-                requestBody = {
-                    model: "claude-3",
-                    prompt: userMessage,
-                    max_tokens: 200
-                };
-            } else if (model === "gemini") {
-                apiKey = document.getElementById('gemini-key').value;
-                endpoint = "https://generativelanguage.googleapis.com/v1/models/gemini:generateText?key=" + apiKey;
-                requestBody = {
-                    prompt: { text: userMessage }
-                };
+            const apiKey = document.getElementById('gemini-key').value;
+            if (!apiKey) {
+                addMessage("AI", "Please enter a valid Gemini API Key.", "bot-message");
+                return;
             }
+
+            const endpoint = `https://generativelanguage.googleapis.com/v1/models/gemini:generateText?key=${apiKey}`;
+            const requestBody = {
+                prompt: { text: userMessage }
+            };
 
             try {
                 const response = await fetch(endpoint, {
                     method: "POST",
-                    headers: {
-                        "Authorization": `Bearer ${apiKey}`,
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(requestBody)
                 });
 
                 const data = await response.json();
-                document.querySelector('.typing-indicator').remove();
-                addMessage("AI", JSON.stringify(data), "bot-message"); // Modify this to extract actual AI response
+                if (data.candidates && data.candidates.length > 0) {
+                    addMessage("AI", data.candidates[0].output, "bot-message");
+                } else {
+                    addMessage("AI", "No valid response received from Gemini AI.", "bot-message");
+                }
             } catch (error) {
-                document.querySelector('.typing-indicator').remove();
                 addMessage("AI", "Error fetching response. Check the console.", "bot-message");
                 console.error(error);
             }
@@ -228,4 +170,5 @@
 
 </body>
 </html>
+
 
