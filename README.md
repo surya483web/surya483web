@@ -23,103 +23,48 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 28px;
             letter-spacing: 3px;
-            position: relative;
-            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5);
-        }
-
-        .top-right-menu {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            cursor: pointer;
-            font-size: 24px;
-            background: #ffcc00;
-            padding: 10px 15px;
-            border-radius: 8px;
-            color: black;
-            box-shadow: 0 0 15px white;
-            transition: 0.3s ease-in-out;
-        }
-
-        .top-right-menu:hover {
-            background: #ff9900;
-            transform: scale(1.1);
         }
 
         .container {
-            padding: 60px;
+            padding: 50px;
             background: url('https://source.unsplash.com/1600x900/?cctv,security') no-repeat center center/cover;
-            min-height: 50vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 10px;
-            box-shadow: 0 0 20px white;
+            min-height: 60vh;
         }
 
-        .features {
-            padding: 25px;
-            background: rgba(0, 0, 0, 0.6);
-            margin-top: 20px;
+        /* Benefits Section */
+        .benefits-section {
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            margin: 20px auto;
+            width: 80%;
             border-radius: 10px;
             box-shadow: 0 0 15px white;
         }
 
-        .bottom-dashboard {
-            padding: 25px;
-            background: black;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            box-shadow: 0 0 20px white;
-            width: 100%;
-            border-radius: 10px;
+        .benefits-section h2 {
+            margin-bottom: 15px;
+            font-size: 26px;
+            text-shadow: 2px 2px 10px white;
         }
 
-        .bottom-dashboard div {
-            background: #444;
-            padding: 25px;
-            width: 30%;
-            margin: 10px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 0 20px white;
+        .benefits-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefits-section li {
             font-size: 18px;
-            font-weight: bold;
+            margin: 10px 0;
         }
 
-        .bottom-dashboard div:hover {
-            box-shadow: 0 0 40px white;
-            transform: scale(1.05);
-            background: #555;
-        }
-
-        /* Booking Form - Centered & User-Friendly */
+        /* Booking Section */
         .booking-section {
             background: rgba(0, 0, 0, 0.9);
             padding: 50px;
             width: 60%;
-            text-align: center;
-            box-shadow: 0 0 20px white;
             margin: 50px auto;
             border-radius: 10px;
-            transition: 0.3s ease-in-out;
-        }
-
-        .booking-form {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 35px;
-            border-radius: 10px;
             box-shadow: 0 0 20px white;
-            width: 100%;
-        }
-
-        .booking-form h2 {
-            margin-bottom: 20px;
-            font-size: 26px;
-            text-shadow: 2px 2px 10px white;
         }
 
         .booking-form input, 
@@ -150,13 +95,23 @@
 
         .booking-form button:hover {
             background: #ff9900;
-            transform: scale(1.05);
         }
 
+        /* Footer */
+        .footer {
+            padding: 20px;
+            background: black;
+            color: white;
+            text-align: center;
+            box-shadow: 0 0 15px white;
+            margin-top: 20px;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .container {
                 padding: 40px;
-                min-height: 60vh;
+                min-height: 50vh;
             }
 
             .booking-section {
@@ -164,36 +119,9 @@
                 padding: 30px;
             }
 
-            .booking-form input, 
-            .booking-form select, 
-            .booking-form textarea {
-                font-size: 16px;
-                padding: 10px;
-            }
-
-            .booking-form button {
-                font-size: 18px;
-                padding: 12px;
-            }
-
-            .bottom-dashboard {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .bottom-dashboard div {
+            .benefits-section {
                 width: 90%;
-                padding: 20px;
-            }
-
-            .top-right-menu {
-                font-size: 22px;
-                padding: 8px 12px;
-                right: 10px;
-            }
-
-            h2, p {
-                font-size: 18px;
+                padding: 30px;
             }
         }
     </style>
@@ -202,23 +130,30 @@
 
     <header>
         <h1>📷 GV Safe Site Construction Cameras 📷</h1>
-        <div class="top-right-menu" onclick="toggleMenu()">☰</div>
     </header>
 
     <div class="container">
         <h2>📡 24/7 Surveillance | 🤖 AI-powered Monitoring | 📷 High-Resolution CCTV</h2>
         <p>🔒 Secure your site with the best-in-class CCTV solutions, ensuring safety and real-time monitoring.</p>
-
-        <div class="features">
-            <p>✔ Live HD Streaming &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ✔ Motion Detection &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ✔ Cloud Storage</p>
-        </div>
     </div>
 
-    <!-- Booking Form in the Middle -->
+    <!-- Benefits Section -->
+    <div class="benefits-section">
+        <h2>🚀 Why Choose GV Safe Site Cameras?</h2>
+        <ul>
+            <li>✔ 24/7 Real-Time Monitoring</li>
+            <li>✔ AI-Powered Motion Detection</li>
+            <li>✔ High-Resolution Footage</li>
+            <li>✔ Secure Cloud Storage</li>
+            <li>✔ Professional Installation</li>
+            <li>✔ Affordable Pricing & Reliable Support</li>
+        </ul>
+    </div>
+
+    <!-- Booking Form -->
     <div class="booking-section">
         <h2>📅 Book Your CCTV Now</h2>
         <div class="booking-form">
-            <h2>Secure Your Site Today</h2>
             <form id="bookingForm">
                 <input type="text" id="name" placeholder="Your Name" required>
                 <input type="tel" id="phone" placeholder="Your Contact Number" required>
@@ -234,10 +169,10 @@
         </div>
     </div>
 
-    <div class="bottom-dashboard">
-        <div onclick="showReviews()">🌟 Customer Reviews</div>
-        <div onclick="alert('⚙️ Settings coming soon!')">⚙️ Settings</div>
-        <div onclick="showSecurityFeatures()">🔐 Security Features</div>
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>📞 Contact Us: 1300 638 632 | ✉ Email: <a href="mailto:surya.murali109@gmail.com">surya.murali109@gmail.com</a> | 📱 WhatsApp: <a href="https://wa.me/9342792571">9342792571</a></p>
+        <p>© 2025 GV Safe Site Construction Cameras. All Rights Reserved.</p>
     </div>
 
 </body>
