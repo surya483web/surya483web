@@ -45,24 +45,58 @@
         }
 
         .container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
             padding: 50px;
             background: url('https://source.unsplash.com/1600x900/?cctv,security') no-repeat center center/cover;
-            min-height: 80vh;
-        }
-
-        .content {
-            width: 45%;
-            text-align: left;
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .features {
+            padding: 20px;
             background: rgba(0, 0, 0, 0.5);
-            padding: 15px;
-            display: inline-block;
-            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .bottom-dashboard {
+            padding: 20px;
+            background: black;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            box-shadow: 0 0 20px white;
+            width: 100%;
+        }
+
+        .bottom-dashboard div {
+            background: #444;
+            padding: 20px;
+            width: 30%;
+            margin: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 20px white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .bottom-dashboard div:hover {
+            box-shadow: 0 0 40px white;
+            transform: scale(1.05);
+        }
+
+        /* Booking Form in Middle */
+        .booking-section {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            width: 60%;
+            text-align: center;
+            box-shadow: 0 0 20px white;
+            margin: 50px auto;
+            border-radius: 10px;
         }
 
         .booking-form {
@@ -70,14 +104,12 @@
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 20px white;
-            width: 45%;
-            text-align: left;
+            width: 100%;
         }
 
         .booking-form h2 {
-            margin-bottom: 15px;
-            font-size: 24px;
-            text-align: center;
+            margin-bottom: 20px;
+            font-size: 26px;
         }
 
         .booking-form input, 
@@ -85,17 +117,17 @@
         .booking-form textarea {
             width: 100%;
             padding: 10px;
-            margin: 8px 0;
+            margin: 10px 0;
             border: none;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .booking-form button {
             background: #ffcc00;
             color: black;
             font-size: 18px;
-            padding: 10px;
+            padding: 12px;
             border: none;
             cursor: pointer;
             width: 100%;
@@ -108,39 +140,9 @@
             background: #ff9900;
         }
 
-        .bottom-dashboard {
-            display: flex;
-            justify-content: space-around;
-            padding: 20px;
-            background: black;
-            box-shadow: 0 0 20px white;
-        }
-
-        .bottom-dashboard div {
-            background: #444;
-            padding: 15px;
-            width: 30%;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 0 20px white;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .bottom-dashboard div:hover {
-            box-shadow: 0 0 40px white;
-            transform: scale(1.05);
-        }
-
         @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-
-            .content, .booking-form {
+            .booking-section {
                 width: 90%;
-                text-align: center;
             }
 
             .bottom-dashboard div {
@@ -157,16 +159,19 @@
     </header>
 
     <div class="container">
-        <div class="content">
-            <h2>📡 24/7 Surveillance | 🤖 AI-powered Monitoring | 📷 High-Resolution CCTV</h2>
-            <p>🔒 Secure your site with the best-in-class CCTV solutions, ensuring safety and real-time monitoring.</p>
-            <div class="features">
-                <p>✔ Live HD Streaming &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ✔ Motion Detection &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ✔ Cloud Storage</p>
-            </div>
-        </div>
+        <h2>📡 24/7 Surveillance | 🤖 AI-powered Monitoring | 📷 High-Resolution CCTV</h2>
+        <p>🔒 Secure your site with the best-in-class CCTV solutions, ensuring safety and real-time monitoring.</p>
 
+        <div class="features">
+            <p>✔ Live HD Streaming &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ✔ Motion Detection &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; ✔ Cloud Storage</p>
+        </div>
+    </div>
+
+    <!-- Booking Form Moved to Middle -->
+    <div class="booking-section">
+        <h2>📅 Book Your CCTV Now</h2>
         <div class="booking-form">
-            <h2>📅 Book Your CCTV Now</h2>
+            <h2>Secure Your Site Today</h2>
             <form id="bookingForm">
                 <input type="text" id="name" placeholder="Your Name" required>
                 <input type="tel" id="phone" placeholder="Your Contact Number" required>
