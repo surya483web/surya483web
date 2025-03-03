@@ -149,6 +149,23 @@
             margin-top: 20px;
         }
 
+        /* Success message */
+        .success-message {
+            display: none;
+            background-color: rgba(0, 128, 0, 0.8);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            animation: fadeOut 5s forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
@@ -222,6 +239,7 @@
     <!-- Booking Form -->
     <div class="booking-section">
         <h2>📅 Book Your CCTV Now</h2>
+        <div id="successMessage" class="success-message">Your booking request has been sent to WhatsApp!</div>
         <div class="booking-form">
             <form id="bookingForm">
                 <input type="text" id="name" placeholder="Your Name" required>
@@ -244,5 +262,50 @@
         <p>© 2025 GV Safe Site Construction Cameras. All Rights Reserved.</p>
     </div>
 
+    <script>
+        function submitBooking() {
+            // Get form values
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const cameraType = document.getElementById('cameraType').value;
+            const installationDate = document.getElementById('installationDate').value;
+            const address = document.getElementById('address').value;
+            
+            // Validate form
+            if (!name || !phone || !installationDate || !address) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            // Format message for WhatsApp
+            const message = `*New CCTV Booking Request*
+Name: ${name}
+Phone: ${phone}
+Camera Type: ${cameraType}
+Installation Date: ${installationDate}
+Address: ${address}`;
+            
+            // Encode the message for URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // WhatsApp API URL (add country code to number)
+            const whatsappURL = `https://wa.me/9342792571?text=${encodedMessage}`;
+            
+            // Open WhatsApp in a new tab
+            window.open(whatsappURL, '_blank');
+            
+            // Clear the form
+            document.getElementById('bookingForm').reset();
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            
+            // Hide success message after animation completes
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 5000);
+        }
+    </script>
 </body>
 </html>
