@@ -154,17 +154,46 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                padding: 40px;
+                min-height: 60vh;
+            }
+
             .booking-section {
                 width: 90%;
+                padding: 30px;
+            }
+
+            .booking-form input, 
+            .booking-form select, 
+            .booking-form textarea {
+                font-size: 16px;
+                padding: 10px;
+            }
+
+            .booking-form button {
+                font-size: 18px;
+                padding: 12px;
+            }
+
+            .bottom-dashboard {
+                flex-direction: column;
+                align-items: center;
             }
 
             .bottom-dashboard div {
-                width: 80%;
+                width: 90%;
+                padding: 20px;
             }
 
             .top-right-menu {
-                font-size: 20px;
+                font-size: 22px;
                 padding: 8px 12px;
+                right: 10px;
+            }
+
+            h2, p {
+                font-size: 18px;
             }
         }
     </style>
