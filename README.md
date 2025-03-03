@@ -19,11 +19,12 @@
 
         header {
             padding: 20px;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             font-family: 'Orbitron', sans-serif;
             font-size: 28px;
             letter-spacing: 3px;
             position: relative;
+            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5);
         }
 
         .top-right-menu {
@@ -33,49 +34,55 @@
             cursor: pointer;
             font-size: 24px;
             background: #ffcc00;
-            padding: 8px 15px;
+            padding: 10px 15px;
             border-radius: 8px;
             color: black;
             box-shadow: 0 0 15px white;
-            transition: 0.3s;
+            transition: 0.3s ease-in-out;
         }
 
         .top-right-menu:hover {
             background: #ff9900;
+            transform: scale(1.1);
         }
 
         .container {
-            padding: 50px;
+            padding: 60px;
             background: url('https://source.unsplash.com/1600x900/?cctv,security') no-repeat center center/cover;
             min-height: 50vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 0 20px white;
         }
 
         .features {
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.6);
             margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px white;
         }
 
         .bottom-dashboard {
-            padding: 20px;
+            padding: 25px;
             background: black;
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
             box-shadow: 0 0 20px white;
             width: 100%;
+            border-radius: 10px;
         }
 
         .bottom-dashboard div {
             background: #444;
-            padding: 20px;
+            padding: 25px;
             width: 30%;
             margin: 10px;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
             transition: 0.3s;
             box-shadow: 0 0 20px white;
@@ -86,22 +93,24 @@
         .bottom-dashboard div:hover {
             box-shadow: 0 0 40px white;
             transform: scale(1.05);
+            background: #555;
         }
 
-        /* Booking Form in Middle */
+        /* Booking Form - Centered & User-Friendly */
         .booking-section {
             background: rgba(0, 0, 0, 0.9);
-            padding: 40px;
+            padding: 50px;
             width: 60%;
             text-align: center;
             box-shadow: 0 0 20px white;
             margin: 50px auto;
             border-radius: 10px;
+            transition: 0.3s ease-in-out;
         }
 
         .booking-form {
             background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
+            padding: 35px;
             border-radius: 10px;
             box-shadow: 0 0 20px white;
             width: 100%;
@@ -110,34 +119,38 @@
         .booking-form h2 {
             margin-bottom: 20px;
             font-size: 26px;
+            text-shadow: 2px 2px 10px white;
         }
 
         .booking-form input, 
         .booking-form select, 
         .booking-form textarea {
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+            padding: 12px;
+            margin: 12px 0;
             border: none;
             border-radius: 5px;
             font-size: 18px;
+            box-shadow: 0 0 10px white;
         }
 
         .booking-form button {
             background: #ffcc00;
             color: black;
-            font-size: 18px;
-            padding: 12px;
+            font-size: 20px;
+            padding: 14px;
             border: none;
             cursor: pointer;
             width: 100%;
             border-radius: 5px;
             font-weight: bold;
             transition: 0.3s;
+            box-shadow: 0 0 15px white;
         }
 
         .booking-form button:hover {
             background: #ff9900;
+            transform: scale(1.05);
         }
 
         @media (max-width: 768px) {
@@ -147,6 +160,11 @@
 
             .bottom-dashboard div {
                 width: 80%;
+            }
+
+            .top-right-menu {
+                font-size: 20px;
+                padding: 8px 12px;
             }
         }
     </style>
@@ -167,7 +185,7 @@
         </div>
     </div>
 
-    <!-- Booking Form Moved to Middle -->
+    <!-- Booking Form in the Middle -->
     <div class="booking-section">
         <h2>📅 Book Your CCTV Now</h2>
         <div class="booking-form">
@@ -192,26 +210,6 @@
         <div onclick="alert('⚙️ Settings coming soon!')">⚙️ Settings</div>
         <div onclick="showSecurityFeatures()">🔐 Security Features</div>
     </div>
-
-    <script>
-        function submitBooking() {
-            let name = document.getElementById("name").value;
-            let phone = document.getElementById("phone").value;
-            let cameraType = document.getElementById("cameraType").value;
-            let installationDate = document.getElementById("installationDate").value;
-            let address = document.getElementById("address").value;
-
-            let message = `Booking Details:\n\nName: ${name}\nPhone: ${phone}\nCamera Type: ${cameraType}\nInstallation Date: ${installationDate}\nAddress: ${address}`;
-
-            // Send Email
-            let mailtoLink = `mailto:surya.murali109@gmail.com?subject=CCTV Booking Request&body=${encodeURIComponent(message)}`;
-            window.location.href = mailtoLink;
-
-            // Send WhatsApp Message
-            let whatsappLink = `https://wa.me/9342792571?text=${encodeURIComponent(message)}`;
-            window.open(whatsappLink, "_blank");
-        }
-    </script>
 
 </body>
 </html>
