@@ -15,8 +15,6 @@
             background: linear-gradient(135deg, #001f3f, #007bff, #00c3ff);
             color: white;
             text-align: center;
-            border: 5px solid white;
-            box-shadow: 0 0 20px white;
         }
 
         header {
@@ -65,7 +63,6 @@
             justify-content: space-around;
             flex-wrap: wrap;
             box-shadow: 0 0 20px white;
-            margin-top: 100px;
             width: 100%;
         }
 
@@ -87,38 +84,45 @@
             transform: scale(1.05);
         }
 
+        .booking-section {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 50px;
+            margin-top: 50px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 20px white;
+        }
+
         .booking-form {
-            background: rgba(0, 0, 0, 0.8);
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0 0 20px white;
-            width: 40%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            width: 60%;
+            margin: auto;
         }
 
         .booking-form h2 {
             margin-bottom: 20px;
+            font-size: 28px;
         }
 
         .booking-form input, 
         .booking-form select, 
         .booking-form textarea {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
             border: none;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 18px;
         }
 
         .booking-form button {
             background: #ffcc00;
             color: black;
-            font-size: 18px;
-            padding: 12px;
+            font-size: 20px;
+            padding: 15px;
             border: none;
             cursor: pointer;
             width: 100%;
@@ -158,26 +162,29 @@
         </div>
     </div>
 
-    <div class="booking-form">
-        <h2>📅 Book Your CCTV Now</h2>
-        <form id="bookingForm">
-            <input type="text" id="name" placeholder="Your Name" required>
-            <input type="tel" id="phone" placeholder="Your Contact Number" required>
-            <select id="cameraType">
-                <option value="HD Camera">HD Camera</option>
-                <option value="Night Vision Camera">Night Vision Camera</option>
-                <option value="AI-Powered Camera">AI-Powered Camera</option>
-            </select>
-            <input type="date" id="installationDate" required>
-            <textarea id="address" placeholder="Installation Address" rows="3" required></textarea>
-            <button type="button" onclick="submitBooking()">📩 Book Now</button>
-        </form>
-    </div>
-
     <div class="bottom-dashboard">
         <div onclick="showReviews()">🌟 Customer Reviews</div>
         <div onclick="alert('⚙️ Settings coming soon!')">⚙️ Settings</div>
         <div onclick="showSecurityFeatures()">🔐 Security Features</div>
+    </div>
+
+    <div class="booking-section">
+        <h2>📅 Book Your CCTV Now</h2>
+        <div class="booking-form">
+            <h2>Secure Your Site Today</h2>
+            <form id="bookingForm">
+                <input type="text" id="name" placeholder="Your Name" required>
+                <input type="tel" id="phone" placeholder="Your Contact Number" required>
+                <select id="cameraType">
+                    <option value="HD Camera">HD Camera</option>
+                    <option value="Night Vision Camera">Night Vision Camera</option>
+                    <option value="AI-Powered Camera">AI-Powered Camera</option>
+                </select>
+                <input type="date" id="installationDate" required>
+                <textarea id="address" placeholder="Installation Address" rows="4" required></textarea>
+                <button type="button" onclick="submitBooking()">📩 Book Now</button>
+            </form>
+        </div>
     </div>
 
     <script>
