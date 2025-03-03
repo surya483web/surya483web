@@ -31,30 +31,26 @@
             min-height: 60vh;
         }
 
-        /* Benefits Section */
-        .benefits-section {
-            padding: 40px;
-            background: rgba(0, 0, 0, 0.7);
-            margin: 20px auto;
+        /* CCTV Images Section */
+        .cctv-gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px auto;
             width: 80%;
+        }
+
+        .cctv-gallery img {
+            width: 30%;
+            height: auto;
             border-radius: 10px;
             box-shadow: 0 0 15px white;
+            transition: 0.3s;
         }
 
-        .benefits-section h2 {
-            margin-bottom: 15px;
-            font-size: 26px;
-            text-shadow: 2px 2px 10px white;
-        }
-
-        .benefits-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .benefits-section li {
-            font-size: 18px;
-            margin: 10px 0;
+        .cctv-gallery img:hover {
+            transform: scale(1.05);
         }
 
         /* Booking Section */
@@ -62,7 +58,7 @@
             background: rgba(0, 0, 0, 0.9);
             padding: 50px;
             width: 60%;
-            margin: 50px auto;
+            margin: 30px auto;
             border-radius: 10px;
             box-shadow: 0 0 20px white;
         }
@@ -110,16 +106,21 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
-                padding: 40px;
+                padding: 30px;
                 min-height: 50vh;
             }
 
-            .booking-section {
-                width: 90%;
-                padding: 30px;
+            .cctv-gallery {
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
             }
 
-            .benefits-section {
+            .cctv-gallery img {
+                width: 80%;
+            }
+
+            .booking-section {
                 width: 90%;
                 padding: 30px;
             }
@@ -137,17 +138,11 @@
         <p>🔒 Secure your site with the best-in-class CCTV solutions, ensuring safety and real-time monitoring.</p>
     </div>
 
-    <!-- Benefits Section -->
-    <div class="benefits-section">
-        <h2>🚀 Why Choose GV Safe Site Cameras?</h2>
-        <ul>
-            <li>✔ 24/7 Real-Time Monitoring</li>
-            <li>✔ AI-Powered Motion Detection</li>
-            <li>✔ High-Resolution Footage</li>
-            <li>✔ Secure Cloud Storage</li>
-            <li>✔ Professional Installation</li>
-            <li>✔ Affordable Pricing & Reliable Support</li>
-        </ul>
+    <!-- CCTV Image Gallery -->
+    <div class="cctv-gallery">
+        <img src="https://source.unsplash.com/400x300/?cctv,camera" alt="CCTV Camera 1">
+        <img src="https://source.unsplash.com/400x300/?security,camera" alt="CCTV Camera 2">
+        <img src="https://source.unsplash.com/400x300/?surveillance,camera" alt="CCTV Camera 3">
     </div>
 
     <!-- Booking Form -->
