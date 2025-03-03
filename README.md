@@ -164,40 +164,47 @@
     <!-- Booking Form (Centered) -->
     <div class="booking-section">
         <h2>📋 Book a CCTV Camera</h2>
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $name = $_POST["name"];
-            $contact = $_POST["contact"];
-            $camera_type = $_POST["camera_type"];
-            $date = $_POST["date"];
-            $address = $_POST["address"];
-
-            $to = "surya.murali109@gmail.com";
-            $subject = "New CCTV Booking Request";
-            $message = "Name: $name\nContact: $contact\nCamera Type: $camera_type\nInstallation Date: $date\nAddress: $address";
-            $headers = "From: noreply@yourdomain.com";
-
-            if (mail($to, $subject, $message, $headers)) {
-                echo "<p style='color: lime;'>Booking request sent successfully!</p>";
-            } else {
-                echo "<p style='color: red;'>Error sending booking request.</p>";
-            }
-        }
-        ?>
-
-        <form class="booking-form" action="" method="POST">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="tel" name="contact" placeholder="Contact Number" required>
-            <select name="camera_type">
+        <form class="booking-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="sendWhatsAppMessage(event)">
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+            <input type="tel" id="contact" name="contact" placeholder="Contact Number" required>
+            <select id="camera" name="camera_type">
+                <option>Camera Type</option>
                 <option>HD CCTV</option>
                 <option>Wireless CCTV</option>
                 <option>AI-powered CCTV</option>
             </select>
-            <input type="date" name="date" required>
-            <input type="text" name="address" placeholder="Installation Address" required>
+            <input type="date" id="date" name="installation_date" required>
+            <input type="text" id="address" name="address" placeholder="Installation Address" required>
             <button type="submit">Book Now</button>
         </form>
     </div>
+
+    <script>
+        function sendWhatsAppMessage(event) {
+            event.preventDefault(); // Prevent form from submitting immediately
+
+            let name = document.getElementById("name").value;
+            let contact = document.getElementById("contact").value;
+            let camera = document.getElementById("camera").value;
+            let date = document.getElementById("date").value;
+            let address = document.getElementById("address").value;
+
+            let message = `Booking Details:
+            Name: ${name}
+            Contact: ${contact}
+            Camera Type: ${camera}
+            Installation Date: ${date}
+            Address: ${address}`;
+
+            let whatsappURL = `https://wa.me/9342792571?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, "_blank");
+
+            // Allow Formspree to send email after WhatsApp redirection
+            setTimeout(() => {
+                event.target.submit();
+            }, 1000);
+        }
+    </script>
 
 </body>
 </html>
