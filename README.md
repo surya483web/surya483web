@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -84,53 +84,33 @@
             padding: 60px;
             background: url('https://source.unsplash.com/1600x900/?cctv,security') no-repeat center center/cover;
             min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .features {
             padding: 30px;
             background: rgba(0, 0, 0, 0.5);
             margin-top: 30px;
+            width: 60%;
+            border-radius: 10px;
         }
 
-        /* Buttons */
-        .bottom-dashboard {
-            padding: 30px;
-            background: black;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-            box-shadow: 0 0 20px white;
-            margin-top: 50px;
-            width: 100%;
-        }
-
-        .bottom-dashboard div {
-            background: #444;
-            padding: 25px;
-            width: 30%;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: 0.3s;
-            box-shadow: 0 0 20px white;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .bottom-dashboard div:hover {
-            box-shadow: 0 0 40px white;
-            transform: scale(1.05);
-        }
-
-        /* Booking Form */
+        /* Booking Form Centered */
         .booking-section {
             background: rgba(0, 0, 0, 0.8);
             padding: 30px;
-            width: 60%;
-            margin: 40px auto;
+            width: 50%;
+            margin: auto;
             border-radius: 10px;
             box-shadow: 0 0 20px white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
         }
 
         .booking-section h2 {
@@ -140,7 +120,7 @@
         .booking-form input, 
         .booking-form select, 
         .booking-form button {
-            width: 100%;
+            width: 90%;
             padding: 12px;
             margin-top: 10px;
             border-radius: 6px;
@@ -160,31 +140,8 @@
             background: #ff9900;
         }
 
-        /* Dark Mode */
-        .dark-mode-toggle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #ffcc00;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 18px;
-            color: black;
-            box-shadow: 0 0 15px white;
-            transition: 0.3s;
-        }
-
-        .dark-mode-toggle:hover {
-            background: #ff9900;
-        }
-
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .bottom-dashboard div {
-                width: 80%;
-            }
-
             .booking-section {
                 width: 90%;
             }
@@ -204,34 +161,40 @@
         </div>
     </header>
 
-    <div class="container">
-        <h2>📡 24/7 Surveillance | 🤖 AI-powered Monitoring | 📷 High-Resolution CCTV</h2>
-        <p>🔒 Secure your site with the best-in-class CCTV solutions, ensuring safety and real-time monitoring.</p>
-        <div class="features">
-            <p>✔ Live HD Streaming &nbsp;&nbsp;|&nbsp;&nbsp; ✔ Motion Detection &nbsp;&nbsp;|&nbsp;&nbsp; ✔ Cloud Storage</p>
-        </div>
-    </div>
-
-    <div class="bottom-dashboard">
-        <div onclick="alert('Customer reviews coming soon!')">🌟 Customer Reviews</div>
-        <div onclick="alert('⚙️ Settings coming soon!')">⚙️ Settings</div>
-        <div onclick="alert('Security features coming soon!')">🔐 Security Features</div>
-    </div>
-
-    <!-- Booking Form -->
+    <!-- Booking Form (Centered) -->
     <div class="booking-section">
         <h2>📋 Book a CCTV Camera</h2>
-        <form class="booking-form">
-            <input type="text" placeholder="Your Name" required>
-            <input type="tel" placeholder="Contact Number" required>
-            <select>
-                <option>Camera Type</option>
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $name = $_POST["name"];
+            $contact = $_POST["contact"];
+            $camera_type = $_POST["camera_type"];
+            $date = $_POST["date"];
+            $address = $_POST["address"];
+
+            $to = "surya.murali109@gmail.com";
+            $subject = "New CCTV Booking Request";
+            $message = "Name: $name\nContact: $contact\nCamera Type: $camera_type\nInstallation Date: $date\nAddress: $address";
+            $headers = "From: noreply@yourdomain.com";
+
+            if (mail($to, $subject, $message, $headers)) {
+                echo "<p style='color: lime;'>Booking request sent successfully!</p>";
+            } else {
+                echo "<p style='color: red;'>Error sending booking request.</p>";
+            }
+        }
+        ?>
+
+        <form class="booking-form" action="" method="POST">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="tel" name="contact" placeholder="Contact Number" required>
+            <select name="camera_type">
                 <option>HD CCTV</option>
                 <option>Wireless CCTV</option>
                 <option>AI-powered CCTV</option>
             </select>
-            <input type="date" required>
-            <input type="text" placeholder="Installation Address" required>
+            <input type="date" name="date" required>
+            <input type="text" name="address" placeholder="Installation Address" required>
             <button type="submit">Book Now</button>
         </form>
     </div>
