@@ -84,54 +84,76 @@
             transform: scale(1.05);
         }
 
-        .booking-section {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 40px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 0 20px white;
+        /* Booking Form Section */
+        .booking-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            margin: 50px auto;
         }
 
         .booking-form {
             background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px #00c3ff, 0 0 50px #007bff;
             width: 60%;
-            margin: auto;
+            text-align: center;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 20px #00c3ff, 0 0 40px #007bff;
+            }
+            100% {
+                box-shadow: 0 0 40px #00c3ff, 0 0 60px #007bff;
+            }
         }
 
         .booking-form h2 {
             margin-bottom: 20px;
-            font-size: 26px;
+            font-size: 28px;
+            color: #ffcc00;
         }
 
         .booking-form input, 
         .booking-form select, 
         .booking-form textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 18px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .booking-form input::placeholder, 
+        .booking-form textarea::placeholder {
+            color: #ddd;
         }
 
         .booking-form button {
             background: #ffcc00;
             color: black;
-            font-size: 18px;
+            font-size: 20px;
             padding: 12px;
             border: none;
             cursor: pointer;
             width: 100%;
-            border-radius: 5px;
+            border-radius: 8px;
             font-weight: bold;
             transition: 0.3s;
+            box-shadow: 0 0 20px white;
         }
 
         .booking-form button:hover {
             background: #ff9900;
+            box-shadow: 0 0 40px white;
         }
 
         @media (max-width: 768px) {
@@ -161,16 +183,10 @@
         </div>
     </div>
 
-    <div class="bottom-dashboard">
-        <div onclick="showReviews()">🌟 Customer Reviews</div>
-        <div onclick="alert('⚙️ Settings coming soon!')">⚙️ Settings</div>
-        <div onclick="showSecurityFeatures()">🔐 Security Features</div>
-    </div>
-
-    <div class="booking-section">
-        <h2>📅 Book Your CCTV Now</h2>
+    <!-- Booking Form in the Middle -->
+    <div class="booking-container">
         <div class="booking-form">
-            <h2>Secure Your Site Today</h2>
+            <h2>📅 Book Your CCTV Now</h2>
             <form id="bookingForm">
                 <input type="text" id="name" placeholder="Your Name" required>
                 <input type="tel" id="phone" placeholder="Your Contact Number" required>
@@ -186,6 +202,12 @@
         </div>
     </div>
 
+    <div class="bottom-dashboard">
+        <div onclick="showReviews()">🌟 Customer Reviews</div>
+        <div onclick="alert('⚙️ Settings coming soon!')">⚙️ Settings</div>
+        <div onclick="showSecurityFeatures()">🔐 Security Features</div>
+    </div>
+
     <script>
         function submitBooking() {
             let name = document.getElementById("name").value;
@@ -196,11 +218,9 @@
 
             let message = `Booking Details:\n\nName: ${name}\nPhone: ${phone}\nCamera Type: ${cameraType}\nInstallation Date: ${installationDate}\nAddress: ${address}`;
 
-            // Send Email
             let mailtoLink = `mailto:surya.murali109@gmail.com?subject=CCTV Booking Request&body=${encodeURIComponent(message)}`;
             window.location.href = mailtoLink;
 
-            // Send WhatsApp Message
             let whatsappLink = `https://wa.me/9342792571?text=${encodeURIComponent(message)}`;
             window.open(whatsappLink, "_blank");
         }
