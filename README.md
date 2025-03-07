@@ -3,309 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GV Safe Site Construction Cameras</title>
-
+    <title>My Colorful Portfolio</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-
         body {
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #001f3f, #007bff, #00c3ff);
+            background-color: #f0f8ff;
+            color: #333;
+        }
+        header {
+            background: linear-gradient(90deg, #ff6f61, #6a5acd);
             color: white;
+            padding: 20px 0;
             text-align: center;
         }
-
-        header {
+        nav {
+            margin: 20px 0;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ffeb3b;
+        }
+        section {
             padding: 20px;
-            background: rgba(0, 0, 0, 0.8);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 28px;
-            letter-spacing: 3px;
+            margin: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-
-        .container {
-            padding: 50px;
-            background: url('https://source.unsplash.com/1600x900/?cctv,security') no-repeat center center/cover;
-            min-height: 60vh;
+        h2 {
+            color: #ff6f61;
         }
-
-        /* Image Gallery Section */
-        .image-gallery {
+        .projects {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin: 40px auto;
-            width: 80%;
+            justify-content: space-between;
         }
-
-        .gallery-item {
-            flex: 0 0 calc(33.33% - 20px);
-            max-width: calc(33.33% - 20px);
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
-            transition: transform 0.3s ease;
-            position: relative;
+        .project {
+            background: #e0f7fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px;
+            flex: 1 1 calc(30% - 20px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
         }
-
-        .gallery-item:hover {
+        .project:hover {
             transform: scale(1.05);
         }
-
-        .gallery-item img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
+        form {
+            display: flex;
+            flex-direction: column;
         }
-
-        .gallery-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        /* Benefits Section */
-        .benefits-section {
-            padding: 40px;
-            background: rgba(0, 0, 0, 0.7);
-            margin: 20px auto;
-            width: 80%;
-            border-radius: 10px;
-            box-shadow: 0 0 15px white;
-        }
-
-        .benefits-section h2 {
-            margin-bottom: 15px;
-            font-size: 26px;
-            text-shadow: 2px 2px 10px white;
-        }
-
-        .benefits-section ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .benefits-section li {
-            font-size: 18px;
+        input, textarea {
             margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
-
-        /* Booking Section */
-        .booking-section {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 50px;
-            width: 60%;
-            margin: 50px auto;
-            border-radius: 10px;
-            box-shadow: 0 0 20px white;
-        }
-
-        .booking-form input, 
-        .booking-form select, 
-        .booking-form textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 12px 0;
+        button {
+            background: #6a5acd;
+            color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            box-shadow: 0 0 10px white;
-        }
-
-        .booking-form button {
-            background: #ffcc00;
-            color: black;
-            font-size: 20px;
-            padding: 14px;
-            border: none;
+            padding: 10px;
+            border-radius: 4px;
             cursor: pointer;
-            width: 100%;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 0 15px white;
+            transition: background 0.3s;
         }
-
-        .booking-form button:hover {
-            background: #ff9900;
+        button:hover {
+            background: #483d8b;
         }
-
-        /* Footer */
-        .footer {
-            padding: 20px;
-            background: black;
-            color: white;
+        footer {
             text-align: center;
-            box-shadow: 0 0 15px white;
-            margin-top: 20px;
-        }
-
-        /* Success message */
-        .success-message {
-            display: none;
-            background-color: rgba(0, 128, 0, 0.8);
+            padding: 20px 0;
+            background: linear-gradient(90deg, #ff6f61, #6a5acd);
             color: white;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-            animation: fadeOut 5s forwards;
-        }
-
-        @keyframes fadeOut {
-            0% { opacity: 1; }
-            70% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 40px;
-                min-height: 50vh;
-            }
-
-            .booking-section {
-                width: 90%;
-                padding: 30px;
-            }
-
-            .benefits-section {
-                width: 90%;
-                padding: 30px;
-            }
-            
-            .image-gallery {
-                width: 90%;
-            }
-            
-            .gallery-item {
-                flex: 0 0 100%;
-                max-width: 100%;
-                margin-bottom: 20px;
-            }
+            position: relative;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>📷 GV Safe Site Construction Cameras 📷</h1>
-    </header>
+<header>
+    <h1>Welcome to My Colorful Portfolio</h1>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
 
-    <div class="container">
-        <h2>📡 24/7 Surveillance | 🤖 AI-powered Monitoring | 📷 High-Resolution CCTV</h2>
-        <p>🔒 Secure your site with the best-in-class CCTV solutions, ensuring safety and real-time monitoring.</p>
-    </div>
+<section id="about">
+    <h2>About Me</h2>
+    <p>Hello! I'm a passionate web developer with a knack for creating beautiful and functional websites. I love coding and am always eager to learn new technologies.</p>
+</section>
 
-    <!-- CCTV Images Gallery -->
-    <h2 style="margin-top: 40px; text-shadow: 2px 2px 10px white;">Our Advanced CCTV Solutions</h2>
-    <div class="image-gallery">
-        <div class="gallery-item">
-            <img src="/api/placeholder/400/320" alt="Construction Site CCTV Camera" />
-            <div class="gallery-caption">Construction Site Surveillance</div>
+<section id="projects">
+    <h2>My Projects</h2>
+    <div class="projects">
+        <div class="project">
+            <h3>Project One</h3>
+            <p>A brief description of my first project. It showcases my skills in HTML, CSS, and JavaScript.</p>
         </div>
-        <div class="gallery-item">
-            <img src="/api/placeholder/400/320" alt="Night Vision CCTV Camera" />
-            <div class="gallery-caption">Night Vision Monitoring</div>
+        <div class="project">
+            <h3>Project Two</h3>
+            <p>A brief description of my second project. It involves responsive design and modern web practices.</p>
         </div>
-        <div class="gallery-item">
-            <img src="/api/placeholder/400/320" alt="AI-Powered CCTV System" />
-            <div class="gallery-caption">AI-Powered Analytics</div>
-        </div>
-    </div>
-
-    <!-- Benefits Section -->
-    <div class="benefits-section">
-        <h2>🚀 Why Choose GV Safe Site Cameras?</h2>
-        <ul>
-            <li>✔ 24/7 Real-Time Monitoring</li>
-            <li>✔ AI-Powered Motion Detection</li>
-            <li>✔ High-Resolution Footage</li>
-            <li>✔ Secure Cloud Storage</li>
-            <li>✔ Professional Installation</li>
-            <li>✔ Affordable Pricing & Reliable Support</li>
-        </ul>
-    </div>
-
-    <!-- Booking Form -->
-    <div class="booking-section">
-        <h2>📅 Book Your CCTV Now</h2>
-        <div id="successMessage" class="success-message">Your booking request has been sent to WhatsApp!</div>
-        <div class="booking-form">
-            <form id="bookingForm">
-                <input type="text" id="name" placeholder="Your Name" required>
-                <input type="tel" id="phone" placeholder="Your Contact Number" required>
-                <select id="cameraType">
-                    <option value="HD Camera">HD Camera</option>
-                    <option value="Night Vision Camera">Night Vision Camera</option>
-                    <option value="AI-Powered Camera">AI-Powered Camera</option>
-                </select>
-                <input type="date" id="installationDate" required>
-                <textarea id="address" placeholder="Installation Address" rows="4" required></textarea>
-                <button type="button" onclick="submitBooking()">📩 Book Now</button>
-            </form>
+        <div class="project">
+            <h3>Project Three</h3>
+            <p>A brief description of my third project. It highlights my ability to work with APIs and backend technologies.</p>
         </div>
     </div>
+</section>
 
-    <!-- Footer Section -->
-    <div class="footer">
-        <p>📞 Contact Us: 1300 638 632 | ✉ Email: <a href="mailto:surya.murali109@gmail.com">surya.murali109@gmail.com</a> | 📱 WhatsApp: <a href="https://wa.me/9342792571">9342792571</a></p>
-        <p>© 2025 GV Safe Site Construction Cameras. All Rights Reserved.</p>
-    </div>
-
-    <script>
-        function submitBooking() {
-            // Get form values
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
-            const cameraType = document.getElementById('cameraType').value;
-            const installationDate = document.getElementById('installationDate').value;
-            const address = document.getElementById('address').value;
-            
-            // Validate form
-            if (!name || !phone || !installationDate || !address) {
-                alert('Please fill in all required fields');
-                return;
-            }
-            
-            // Format message for WhatsApp
-            const message = `*New CCTV Booking Request*
-Name: ${name}
-Phone: ${phone}
-Camera Type: ${cameraType}
-Installation Date: ${installationDate}
-Address: ${address}`;
-            
-            // Encode the message for URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // WhatsApp API URL (add country code to number)
-            const whatsappURL = `https://wa.me/9342792571?text=${encodedMessage}`;
-            
-            // Open WhatsApp in a new tab
-            window.open(whatsappURL, '_blank');
-            
-            // Clear the form
-            document.getElementById('bookingForm').reset();
-            
-            // Show success message
-            const successMessage = document.getElementById('successMessage');
-            successMessage.style.display = 'block';
-            
-            // Hide success message after animation completes
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 5000);
-        }
-    </script>
-</body>
-</html>
+<section id="contact">
+    <h2>Contact Me</h2>
+    <form onsubmit="return sendMessage();">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" rows="5
