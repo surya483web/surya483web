@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -936,4 +936,4 @@
                         </div>
                     </div>
                     <div class="review-text">
-                        Just purchased the ME Ultra Pro 13
+                        Just purchased the ME Ultra Pro 13 and I'm absolutely blown away by the camera quality
