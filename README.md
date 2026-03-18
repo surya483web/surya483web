@@ -1,6 +1,6 @@
  <!DOCTYPE html>
     <title>HTML WEB </title >
-<form>
+
  <center><h1>🚀ARTIFICIAL INTELLIGENCE...</h1><br>
    <h3>LOG IN</h3>
     <hr>
@@ -31,4 +31,4 @@
 <a href="https://www.youtube.com/">YOUTUBE||</a>
 <a href="https://x.com/">TWITTER</a>
  </center>
- </form>
+ 
