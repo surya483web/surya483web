@@ -1,6 +1,6 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
     <title>HTML WEB </title >
-
+<form>
  <center><h1>🚀ARTIFICIAL INTELLIGENCE...</h1><br>
    <h3>LOG IN</h3>
     <hr>
@@ -14,7 +14,7 @@
  <br>
 
  <tr>
-    <td>AGE: </td> <td><input type="number" placeholder="ENTER YOUR AGE" required=""></td> 
+    <label for="AGE"><td>AGE: </td> <td><input type="number" placeholder="ENTER YOUR AGE" required=""></td></label> 
 </tr>
 
  <br>
@@ -25,8 +25,10 @@
 </tr>
 <br>
 <br>
+
 <hr>
 <a href="https://www.instagram.com/?hl=en">INSTAGRAM||</a>
 <a href="https://www.youtube.com/">YOUTUBE||</a>
 <a href="https://x.com/">TWITTER</a>
  </center>
+ </form>
