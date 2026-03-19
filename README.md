@@ -1,34 +1,36 @@
- <!DOCTYPE html>
-    <title>HTML WEB </title >
-
- <center><h1>🚀ARTIFICIAL INTELLIGENCE...</h1><br>
-   <h3>LOG IN</h3>
-    <hr>
-<br>
-
- <tr>
-    <td>NAME:</td> <td><input type="text" required placeholder="ENTER YOUR NAME"></td>
- </tr>
-
- <br>
- <br>
-
- <tr>
-    <label for="AGE"><td>AGE: </td> <td><input type="number" placeholder="ENTER YOUR AGE" required=""></td></label> 
-</tr>
-
- <br>
- <br>
-
-<tr>
-<a href="https://surya483web.github.io/html1/"><input type="submit" required=""></a>
-</tr>
-<br>
-<br>
-
-<hr>
-<a href="https://www.instagram.com/?hl=en">INSTAGRAM||</a>
-<a href="https://www.youtube.com/">YOUTUBE||</a>
-<a href="https://x.com/">TWITTER</a>
- </center>
+<center>
+   <style>
  
+    h1{
+        padding-top: 30px;
+    }
+    .three{
+        padding-bottom: 10px;
+        
+
+    }
+    .zero{
+        margin-top: 120px;
+        margin-left: 180px;
+        margin-right: 180px;
+        border-color: aqua;
+        border-radius: 50px;
+        border-width: 4px;
+        border-style: solid;
+    }
+
+   </style> 
+    
+    <form  class="zero" style="color: rgb(52, 238, 176);background-color: rgb(0, 0, 0);" > 
+    <h1>LOGIN FORM</h1><br>
+    <hr>
+    <br>
+        <h3 class="one">E-mail <input type="email" placeholder="ENTER YOUR E-mail"  ></h3>
+    
+
+         <h3 class="two">Password <input type="password" placeholder="ENTER YOUR PASSWORD"  ></h3></form>
+    <br>
+         <a href="https://surya483web.github.io/html1/" ><input type="submit"></a>
+
+
+</center>
