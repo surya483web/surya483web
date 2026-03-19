@@ -27,12 +27,10 @@
    
     <hr>
     <br>
-        <h3 class="one">E-mail <input type="email" placeholder="ENTER YOUR E-mail"  ></h3>
+        <h3 class="one">E-mail <input type="email" placeholder="ENTER YOUR E-mail" required=""  ></h3>
     
 
-         <h3 class="two">Password <input type="password" placeholder="ENTER YOUR PASSWORD"  ></h3></form>
+         <h3 class="two">Password <input type="password" placeholder="ENTER YOUR PASSWORD" required="" ></h3></form>
     <br>
          <a href="https://surya483web.github.io/html1/" ><input type="submit"></a>
-
-
 </center>
