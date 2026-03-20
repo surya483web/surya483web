@@ -1,10 +1,5 @@
  <center>
    <style>
-    .one{
-        padding-top: 30px;
-    
-    }
- 
     h1{
         padding-top: 20px;
     }
