@@ -1,5 +1,6 @@
  <center>
    <style>
+    
     h1{
         padding-top: 20px;
     }
@@ -49,7 +50,6 @@
     
     <form  class="zero" style="color: rgb(52, 238, 176);background-color: rgb(0, 0, 0);" > 
     <h1 class="login">LOGIN FORM</h1><br>
-   
     <hr>
     <br>
         <h3 class="one">E-mail <input class="mail" type="email" placeholder="ENTER YOUR E-mail" required=""></h3>
